@@ -13,7 +13,7 @@ public class Server {
     public static void main(String[] args) {
 //        LOGGER.debug("Enter in Server.main(args = {})", args);
         final SpringApplication springApplication = new SpringApplication(Server.class);
-        springApplication.setBannerMode(Banner.Mode.OFF);
+        //springApplication.setBannerMode(Banner.Mode.OFF);
         springApplication.run(args);
     }
 }

@@ -10,7 +10,9 @@ public class VkApiConfig {
     private String clientSecret;
     private String authorizeRedirectUri;
 
-    public VkApiConfig(@Value("${vkapi.app-id}") int appId, @Value("${vkapi.client-secret}") String clientSecret,
+    //todo eliminate
+    public VkApiConfig(@Value("${vkapi.app-id}") int appId,
+                       @Value("${vkapi.client-secret}") String clientSecret,
                        @Value("${vkapi.authorize-redirect-uri}") String authorizeRedirectUri) {
         this.appId = appId;
         this.clientSecret = clientSecret;

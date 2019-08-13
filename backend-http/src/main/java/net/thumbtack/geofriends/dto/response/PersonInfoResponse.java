@@ -1,5 +1,6 @@
 package net.thumbtack.geofriends.dto.response;
 
+//todo lombok dis class
 public class PersonInfoResponse {
     private final Integer vkAccountId;
     private final String firstName;
@@ -10,8 +11,13 @@ public class PersonInfoResponse {
     private final Double longitude;
     private final String photoUri;
 
-    public PersonInfoResponse(Integer vkAccountId, String firstName, String lastName, String city, String country,
-                              Double latitude, Double longitude, String photoUri) {
+    public PersonInfoResponse(Integer vkAccountId,
+                              String firstName,
+                              String lastName,
+                              String city, String country,
+                              Double latitude,
+                              Double longitude,
+                              String photoUri) {
         this.vkAccountId = vkAccountId;
         this.firstName = firstName;
         this.lastName = lastName;

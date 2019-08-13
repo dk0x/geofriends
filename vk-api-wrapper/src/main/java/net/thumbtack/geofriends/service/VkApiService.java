@@ -6,8 +6,6 @@ import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.httpclient.HttpTransportClient;
 import com.vk.api.sdk.objects.UserAuthResponse;
-import com.vk.api.sdk.objects.base.BaseObject;
-import com.vk.api.sdk.objects.base.Country;
 import com.vk.api.sdk.objects.friends.UserXtrLists;
 import com.vk.api.sdk.objects.friends.responses.GetFieldsResponse;
 import com.vk.api.sdk.objects.users.Fields;
@@ -24,8 +22,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.net.URL;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class VkApiService {
@@ -114,8 +115,7 @@ public class VkApiService {
         final VkApiClient vkApiClient = new VkApiClient(httpClient);
 
         final UserActor actor = new UserActor(vkApiConfig.getAppId(), accessToken);
-        final Fields[] fields = {Fields.CITY, Fields.COUNTRY, Fields.PHOTO_50};
-        final FriendsGetQueryWithFields query = vkApiClient.friends().getWithFields(actor, fields);
+        FriendsGetQueryWithFields query = vkApiClient.friends().getWithFields(actor, Fields.CITY, Fields.COUNTRY, Fields.PHOTO_50);
         final GetFieldsResponse response;
         try {
             response = query.execute();
@@ -129,23 +129,9 @@ public class VkApiService {
         return response.getItems();
     }
 
-    private List<PersonInfoDtoResponse> convertFriendsToPersons(final List<UserXtrLists> input) {
-        final List<PersonInfoDtoResponse> output = new ArrayList<>();
-        for (final UserXtrLists friend : input) {
-            final BaseObject city = friend.getCity();
-            final Country country = friend.getCountry();
-            final URL photo50 = friend.getPhoto50();
-            final Integer cityId = city != null ? city.getId() : -1;
-            final String cityTitle = city != null ? city.getTitle() : "";
-            final Integer countryId = country != null ? country.getId() : -1;
-            final String countryTitle = country != null ? country.getTitle() : "";
-            final PersonInfoDtoResponse userInfo =
-                    new PersonInfoDtoResponse(friend.getId(), friend.getFirstName(), friend.getLastName(), cityId,
-                            cityTitle, countryId, countryTitle, photo50.toString());
-            output.add(userInfo);
-        }
-        return output;
+    private List<PersonInfoDtoResponse> convertFriendsToPersons(List<UserXtrLists> input) {
+        return input.stream()
+                .map(PersonInfoDtoResponse::createFromUserXtrLists)
+                .collect(Collectors.toList());
     }
-
-
 }

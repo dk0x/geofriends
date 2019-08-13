@@ -29,11 +29,9 @@ public class AuthSession {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("VkAuthSession{");
-        sb.append("sessionId='").append(sessionId).append('\'');
-        sb.append(", accessToken='").append(accessToken).append('\'');
-        sb.append('}');
-        return sb.toString();
+        return "VkAuthSession{" + "sessionId='" + sessionId + '\'' +
+                ", accessToken='" + accessToken + '\'' +
+                '}';
     }
 
     @Override

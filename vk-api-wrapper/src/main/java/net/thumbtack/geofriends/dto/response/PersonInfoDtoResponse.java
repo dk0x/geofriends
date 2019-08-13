@@ -1,5 +1,10 @@
 package net.thumbtack.geofriends.dto.response;
 
+import com.vk.api.sdk.objects.base.BaseObject;
+import com.vk.api.sdk.objects.base.Country;
+import com.vk.api.sdk.objects.friends.UserXtrLists;
+
+import java.net.URL;
 import java.util.Objects;
 
 public class PersonInfoDtoResponse {
@@ -12,8 +17,14 @@ public class PersonInfoDtoResponse {
     private final String country;
     private final String photoUri;
 
-    public PersonInfoDtoResponse(int id, String firstName, String lastName, Integer cityId, String city,
-                                 Integer countryId, String country, String photoUri) {
+    public PersonInfoDtoResponse(int id,
+                                 String firstName,
+                                 String lastName,
+                                 Integer cityId,
+                                 String city,
+                                 Integer countryId,
+                                 String country,
+                                 String photoUri) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -22,6 +33,26 @@ public class PersonInfoDtoResponse {
         this.countryId = countryId;
         this.country = country;
         this.photoUri = photoUri;
+    }
+
+    public static PersonInfoDtoResponse createFromUserXtrLists(UserXtrLists userXtrLists) {
+        final BaseObject city = userXtrLists.getCity();
+        final Country country = userXtrLists.getCountry();
+        final URL photo50 = userXtrLists.getPhoto50();
+        final Integer cityId = city != null ? city.getId() : -1;
+        final String cityTitle = city != null ? city.getTitle() : "";
+        final Integer countryId = country != null ? country.getId() : -1;
+        final String countryTitle = country != null ? country.getTitle() : "";
+
+        return new PersonInfoDtoResponse(
+                userXtrLists.getId(),
+                userXtrLists.getFirstName(),
+                userXtrLists.getLastName(),
+                cityId,
+                cityTitle,
+                countryId,
+                countryTitle,
+                photo50.toString());
     }
 
     public int getId() {
