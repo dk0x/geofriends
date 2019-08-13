@@ -21,8 +21,7 @@ function showMessage(msg, timeout) {
 
 async function authByCode(code) {
     try {
-        const sessionId = await fetch(API_URL + '/vk/auth?' + 'code=' + code);
-        return sessionId;
+        await fetch(API_URL + '/vk/auth?' + 'code=' + code, { method: 'POST' });
     } catch (err) {
         showMessage(err, 5);
     }
@@ -30,7 +29,7 @@ async function authByCode(code) {
 
 async function fetchFriends() {
     try {
-        const response = await fetch(API_URL + '/vk/getFriends');
+        const response = await fetch(API_URL + '/vk/friends');
         const json = await response.json();
         console.log(json);
     } catch (err) {
@@ -41,8 +40,8 @@ async function fetchFriends() {
 async function main() {
     const vkOauthCode = getUrlParameter('code');
     if (vkOauthCode != null) {
-        const sessionId = await authByCode(vkOauthCode);
-        document.location = HOST;
+        await authByCode(vkOauthCode);
+        // document.location = HOST;
     } else {
         const cookie = getCookie("vkSessionId");
         if (cookie != undefined) {
@@ -52,26 +51,6 @@ async function main() {
 }
 main();
 
-// let vkOauthCode = getUrlParameter('code');
-// if (vkOauthCode != null) {
-//     let apiUrl = location.protocol + '//' + location.host + '/api';
-
-//     fetch(apiUrl + '/vk/auth?' + 'code=' + vkOauthCode)
-//         .then((response) => {
-//             response.json()
-//                 .then((data) => {
-//                     /*
-//                         data: Array(1)
-//                             0:
-//                             city: "Омск"
-//                             country: "Россия"
-//                             firstName: "Иван"
-//                             lastName: "Борт"
-//                             latitude: 54.9884804
-//                             longitude: 73.3242361
-//                             photoUri: "https://sun9-33.userapi.com/c831209/v831209157/13c3ac/xWIciGGN4Ss.jpg?ava=1"
-//                             vkAccountId: 7553672
-//                     */
 //                     let signIn = document.getElementById("sign-in").remove();
 //                     let map = L.map('map');
 //                     if (data.length > 0) {
@@ -93,12 +72,3 @@ main();
 
 //                     }
 //                 })
-//                 .catch((reason) => {
-//                     showMessage(reason, 5);
-//                 });
-//         })
-//         .catch((reason) => {
-//             showMessage(reason, 5);
-//         });
-// }
-

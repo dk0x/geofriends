@@ -1,4 +1,4 @@
-package net.thumbtack.geofriends.exceptions;
+package net.thumbtack.geofriends.vkapiwrapper.shared;
 
 public class AuthenticationBrokenException extends BaseException {
     public AuthenticationBrokenException(Throwable throwable) {

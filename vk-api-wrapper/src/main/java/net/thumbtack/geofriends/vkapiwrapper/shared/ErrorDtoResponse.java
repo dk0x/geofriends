@@ -1,4 +1,4 @@
-package net.thumbtack.geofriends.dto.response;
+package net.thumbtack.geofriends.vkapiwrapper.shared;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

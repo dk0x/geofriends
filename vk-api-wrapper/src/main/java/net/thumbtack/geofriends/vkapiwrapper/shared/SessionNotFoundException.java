@@ -1,4 +1,4 @@
-package net.thumbtack.geofriends.exceptions;
+package net.thumbtack.geofriends.vkapiwrapper.shared;
 
 public class SessionNotFoundException extends BaseException {
     public SessionNotFoundException() {

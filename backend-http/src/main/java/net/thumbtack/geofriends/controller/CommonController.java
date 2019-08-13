@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class CommonController {
-//    private final static Logger LOGGER = LoggerFactory.getLogger(VkApiController.class);
 
     private CommonService commonService;
 

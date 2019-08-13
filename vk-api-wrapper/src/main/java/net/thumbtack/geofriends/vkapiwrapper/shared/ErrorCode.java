@@ -1,4 +1,4 @@
-package net.thumbtack.geofriends.exceptions;
+package net.thumbtack.geofriends.vkapiwrapper.shared;
 
 public enum ErrorCode {
     OAUTH_CODE_INVALID("Oauth code invalid or expired."),

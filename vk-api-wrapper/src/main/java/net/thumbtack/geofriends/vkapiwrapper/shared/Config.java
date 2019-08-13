@@ -1,4 +1,4 @@
-package net.thumbtack.geofriends.config;
+package net.thumbtack.geofriends.vkapiwrapper.shared;
 
 
 import lombok.Getter;
@@ -12,7 +12,8 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "vkapi")
 @Setter
 @Getter
-public class VkApiConfig {
+public class Config {
+    public final static String SESSION_COOKIE_NAME = "vkSessionId";
     private int appId;
     private String clientSecret;
     private String authorizeRedirectUri;

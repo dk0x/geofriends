@@ -18,7 +18,7 @@ public class CommonService {
 //        final List<PersonInfoResponse> responses = new ArrayList<>();
 //
 //
-//        final String googleApiKey = "AIzaSyAx6vBk6kuCJRPMZkxGtBLf09nK6Kabpek";
+//        final String googleApiKey = "";
 //        final GeoApiContext geoApiContext = new GeoApiContext.Builder().apiKey(googleApiKey).build();
 //
 //        for (VkPersonInfo outputFriend : outputFriends) {

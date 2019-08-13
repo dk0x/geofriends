@@ -1,0 +1,19 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+vkapi:
+  app-id: 7087056
+  client-secret: ${vk-api-client-secret}
+  authorize-redirect-uri: http://localhost
+
+dynamodb:
+  endpoint: http://localhost:8000/
+  region: eu-central-1
+  access-key: test
+  secret-key: test
+
+logging:
+  level:
+    net.thumbtack.geofriends: DEBUG

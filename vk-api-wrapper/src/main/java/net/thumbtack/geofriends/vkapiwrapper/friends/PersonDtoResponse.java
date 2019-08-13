@@ -1,4 +1,4 @@
-package net.thumbtack.geofriends.dto.response;
+package net.thumbtack.geofriends.vkapiwrapper.friends;
 
 import com.vk.api.sdk.objects.base.BaseObject;
 import com.vk.api.sdk.objects.base.Country;
@@ -12,7 +12,7 @@ import lombok.ToString;
 @Getter
 @EqualsAndHashCode
 @ToString
-public class PersonInfoDtoResponse {
+public class PersonDtoResponse {
     private final int id;
     private final String firstName;
     private final String lastName;
@@ -22,7 +22,7 @@ public class PersonInfoDtoResponse {
     private final String country;
     private final String photoUri;
 
-    public static PersonInfoDtoResponse createFromUserXtrLists(UserXtrLists user) {
+    public static PersonDtoResponse createFromUserXtrLists(UserXtrLists user) {
         BaseObject city = user.getCity();
         Country country = user.getCountry();
         Integer cityId = city != null ? city.getId() : -1;
@@ -30,7 +30,7 @@ public class PersonInfoDtoResponse {
         Integer countryId = country != null ? country.getId() : -1;
         String countryTitle = country != null ? country.getTitle() : "";
 
-        return new PersonInfoDtoResponse(user.getId(), user.getFirstName(), user.getLastName(), cityId, cityTitle,
+        return new PersonDtoResponse(user.getId(), user.getFirstName(), user.getLastName(), cityId, cityTitle,
                 countryId, countryTitle, user.getPhoto50().toString());
     }
 }
