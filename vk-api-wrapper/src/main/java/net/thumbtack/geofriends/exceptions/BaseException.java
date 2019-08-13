@@ -1,5 +1,8 @@
 package net.thumbtack.geofriends.exceptions;
 
+import lombok.Getter;
+
+@Getter
 public abstract class BaseException extends Exception {
 
     private final ErrorCode errorCode;
@@ -9,27 +12,9 @@ public abstract class BaseException extends Exception {
         this.errorCode = errorCode;
     }
 
-    public BaseException(String s, ErrorCode errorCode) {
-        super(s);
-        this.errorCode = errorCode;
-    }
-
-    public BaseException(String s, Throwable throwable, ErrorCode errorCode) {
-        super(s, throwable);
-        this.errorCode = errorCode;
-    }
-
     public BaseException(Throwable throwable, ErrorCode errorCode) {
         super(errorCode.getDescription(), throwable);
         this.errorCode = errorCode;
     }
 
-    public BaseException(String s, Throwable throwable, boolean b, boolean b1, ErrorCode errorCode) {
-        super(s, throwable, b, b1);
-        this.errorCode = errorCode;
-    }
-
-    public ErrorCode getErrorCode() {
-        return errorCode;
-    }
 }

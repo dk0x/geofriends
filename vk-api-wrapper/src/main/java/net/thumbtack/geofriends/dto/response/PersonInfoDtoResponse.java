@@ -3,10 +3,15 @@ package net.thumbtack.geofriends.dto.response;
 import com.vk.api.sdk.objects.base.BaseObject;
 import com.vk.api.sdk.objects.base.Country;
 import com.vk.api.sdk.objects.friends.UserXtrLists;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
-import java.net.URL;
-import java.util.Objects;
-
+@AllArgsConstructor
+@Getter
+@EqualsAndHashCode
+@ToString
 public class PersonInfoDtoResponse {
     private final int id;
     private final String firstName;
@@ -17,108 +22,15 @@ public class PersonInfoDtoResponse {
     private final String country;
     private final String photoUri;
 
-    public PersonInfoDtoResponse(int id,
-                                 String firstName,
-                                 String lastName,
-                                 Integer cityId,
-                                 String city,
-                                 Integer countryId,
-                                 String country,
-                                 String photoUri) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.cityId = cityId;
-        this.city = city;
-        this.countryId = countryId;
-        this.country = country;
-        this.photoUri = photoUri;
-    }
+    public static PersonInfoDtoResponse createFromUserXtrLists(UserXtrLists user) {
+        BaseObject city = user.getCity();
+        Country country = user.getCountry();
+        Integer cityId = city != null ? city.getId() : -1;
+        String cityTitle = city != null ? city.getTitle() : "";
+        Integer countryId = country != null ? country.getId() : -1;
+        String countryTitle = country != null ? country.getTitle() : "";
 
-    public static PersonInfoDtoResponse createFromUserXtrLists(UserXtrLists userXtrLists) {
-        final BaseObject city = userXtrLists.getCity();
-        final Country country = userXtrLists.getCountry();
-        final URL photo50 = userXtrLists.getPhoto50();
-        final Integer cityId = city != null ? city.getId() : -1;
-        final String cityTitle = city != null ? city.getTitle() : "";
-        final Integer countryId = country != null ? country.getId() : -1;
-        final String countryTitle = country != null ? country.getTitle() : "";
-
-        return new PersonInfoDtoResponse(
-                userXtrLists.getId(),
-                userXtrLists.getFirstName(),
-                userXtrLists.getLastName(),
-                cityId,
-                cityTitle,
-                countryId,
-                countryTitle,
-                photo50.toString());
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public Integer getCityId() {
-        return cityId;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public Integer getCountryId() {
-        return countryId;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public String getPhotoUri() {
-        return photoUri;
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("VkPersonInfoResponse{");
-        sb.append("id=").append(id);
-        sb.append(", firstName='").append(firstName).append('\'');
-        sb.append(", lastName='").append(lastName).append('\'');
-        sb.append(", cityId=").append(cityId);
-        sb.append(", city='").append(city).append('\'');
-        sb.append(", countryId=").append(countryId);
-        sb.append(", country='").append(country).append('\'');
-        sb.append(", photoUri='").append(photoUri).append('\'');
-        sb.append('}');
-        return sb.toString();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (!(o instanceof PersonInfoDtoResponse))
-            return false;
-        PersonInfoDtoResponse that = (PersonInfoDtoResponse) o;
-        return getId() == that.getId() && Objects.equals(getFirstName(), that.getFirstName()) &&
-                Objects.equals(getLastName(), that.getLastName()) && Objects.equals(getCityId(), that.getCityId()) &&
-                Objects.equals(getCity(), that.getCity()) && Objects.equals(getCountryId(), that.getCountryId()) &&
-                Objects.equals(getCountry(), that.getCountry()) && Objects.equals(getPhotoUri(), that.getPhotoUri());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects
-                .hash(getId(), getFirstName(), getLastName(), getCityId(), getCity(), getCountryId(), getCountry(),
-                        getPhotoUri());
+        return new PersonInfoDtoResponse(user.getId(), user.getFirstName(), user.getLastName(), cityId, cityTitle,
+                countryId, countryTitle, user.getPhoto50().toString());
     }
 }

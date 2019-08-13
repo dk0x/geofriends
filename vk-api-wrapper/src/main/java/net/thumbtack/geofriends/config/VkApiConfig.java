@@ -1,34 +1,19 @@
 package net.thumbtack.geofriends.config;
 
 
-import org.springframework.beans.factory.annotation.Value;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@EnableConfigurationProperties
+@ConfigurationProperties(prefix = "vkapi")
+@Setter
+@Getter
 public class VkApiConfig {
     private int appId;
     private String clientSecret;
     private String authorizeRedirectUri;
-
-    //todo eliminate
-    public VkApiConfig(@Value("${vkapi.app-id}") int appId,
-                       @Value("${vkapi.client-secret}") String clientSecret,
-                       @Value("${vkapi.authorize-redirect-uri}") String authorizeRedirectUri) {
-        this.appId = appId;
-        this.clientSecret = clientSecret;
-        this.authorizeRedirectUri = authorizeRedirectUri;
-    }
-
-    public int getAppId() {
-        return appId;
-    }
-
-    public String getClientSecret() {
-        return clientSecret;
-    }
-
-    public String getAuthorizeRedirectUri() {
-        return authorizeRedirectUri;
-    }
-
 }

@@ -1,5 +1,6 @@
 package net.thumbtack.geofriends.controller;
 
+import lombok.AllArgsConstructor;
 import net.thumbtack.geofriends.dto.response.PersonInfoDtoResponse;
 import net.thumbtack.geofriends.exceptions.AuthenticationBrokenException;
 import net.thumbtack.geofriends.exceptions.OauthCodeInvalidException;
@@ -8,7 +9,6 @@ import net.thumbtack.geofriends.model.AuthSession;
 import net.thumbtack.geofriends.service.VkApiService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,38 +19,30 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
-//todo allargsconstructor + make sure tha injection is happening
+@AllArgsConstructor
 public class VkApiController {
-    private final static Logger LOGGER = LoggerFactory.getLogger(VkApiController.class);
+    private final static Logger log = LoggerFactory.getLogger(VkApiController.class);
     private final static String SESSION_COOKIE_NAME = "vkSessionId";
 
     private VkApiService vkApiService;
 
-    @Autowired
-    public VkApiController(VkApiService vkApiService) {
-        this.vkApiService = vkApiService;
-    }
-
     @GetMapping("/vk/auth")
-    public String auth(@RequestParam String code, HttpServletResponse httpServletResponse) throws OauthCodeInvalidException {
-        LOGGER.debug("Enter in VkApiController.auth(code = {})", code);
+    public void auth(@RequestParam String code, HttpServletResponse httpServletResponse) throws OauthCodeInvalidException {
+        log.debug("Enter in VkApiController.auth(code = {})", code);
 
-        final String sessionId = vkApiService.authByCode(code).getSessionId();
-        final Cookie cookie = new Cookie(SESSION_COOKIE_NAME, sessionId);
-
+        AuthSession session = vkApiService.authByCode(code);
+        Cookie cookie = new Cookie(SESSION_COOKIE_NAME, session.getSessionId());
         cookie.setPath("/");
         httpServletResponse.addCookie(cookie);
 
-        LOGGER.debug("Exit from VkApiController.auth() with return {}", sessionId);
-
-        return sessionId;
+        log.debug("Exit from VkApiController.auth()");
     }
 
     @GetMapping("/vk/getFriends")
     public List<PersonInfoDtoResponse> getFriends(@CookieValue(SESSION_COOKIE_NAME) String sessionId) throws SessionNotFoundException, AuthenticationBrokenException {
-        LOGGER.debug("Enter in VkApiController.getFriends(sessionId = {})", sessionId);
+        log.debug("Enter in VkApiController.getFriends(sessionId = {})", sessionId);
         final List<PersonInfoDtoResponse> friends = vkApiService.getFriends(sessionId);
-        LOGGER.debug("Exit from VkApiController.getFriends() with return {}", friends);
+        log.debug("Exit from VkApiController.getFriends() with return {}", friends);
         return friends;
     }
 }
