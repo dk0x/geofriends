@@ -5,7 +5,7 @@ server:
 
 vkapi:
   app-id: 7087056
-  client-secret: ${vk-api-client-secret}
+  client-secret: ${vk-api-client-secret:notSpecified}
   authorize-redirect-uri: http://localhost
 
 dynamodb:
