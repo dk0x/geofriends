@@ -17,12 +17,19 @@
             <artifactId>vk-api-wrapper</artifactId>
             <version>0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>net.thumbtack.geofriends</groupId>
+            <artifactId>google-earth-api-wrapper</artifactId>
+            <version>0.1-SNAPSHOT</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <version>2.1.7.RELEASE</version>
         </dependency>
+
 
         <dependency>
             <groupId>junit</groupId>
@@ -37,15 +44,6 @@
             <scope>test</scope>
         </dependency>
 
-
-
-<!--        <dependency>-->
-<!--            <groupId>com.google.maps</groupId>-->
-<!--            <artifactId>google-maps-services</artifactId>-->
-<!--            <version>0.9.4</version>-->
-<!--        </dependency>-->
-
-
-
     </dependencies>
+
 </project>

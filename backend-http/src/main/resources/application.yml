@@ -12,6 +12,9 @@ vkapi:
   client-secret: ${vk-api-client-secret:notSpecified}
   authorize-redirect-uri: http://localhost
 
+google-earth-api:
+  api-key: ${google-earth-api-key:notSpecified}
+
 dynamodb:
   endpoint: http://localhost:8000/
   region: eu-central-1

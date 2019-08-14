@@ -14,8 +14,8 @@ import javax.annotation.PostConstruct;
 @Component
 @AllArgsConstructor
 @EnableDynamoDBRepositories(basePackageClasses = {SessionRepository.class})
-public class DatabaseInitialization {
-    private final static Logger log = LoggerFactory.getLogger(DatabaseInitialization.class);
+public class VkApiStorageInitializer {
+    private final static Logger log = LoggerFactory.getLogger(VkApiStorageInitializer.class);
 
     private TableManager tableManager;
 
