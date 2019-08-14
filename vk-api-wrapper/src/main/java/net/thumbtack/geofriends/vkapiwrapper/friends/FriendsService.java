@@ -10,11 +10,11 @@ import com.vk.api.sdk.objects.friends.responses.GetFieldsResponse;
 import com.vk.api.sdk.objects.users.Fields;
 import com.vk.api.sdk.queries.friends.FriendsGetQueryWithFields;
 import lombok.AllArgsConstructor;
-import net.thumbtack.geofriends.vkapiwrapper.shared.AuthenticationBrokenException;
+import net.thumbtack.geofriends.vkapiwrapper.auth.AuthenticationBrokenException;
+import net.thumbtack.geofriends.vkapiwrapper.auth.Session;
+import net.thumbtack.geofriends.vkapiwrapper.auth.SessionNotFoundException;
+import net.thumbtack.geofriends.vkapiwrapper.auth.SessionRepository;
 import net.thumbtack.geofriends.vkapiwrapper.shared.Config;
-import net.thumbtack.geofriends.vkapiwrapper.shared.Session;
-import net.thumbtack.geofriends.vkapiwrapper.shared.SessionNotFoundException;
-import net.thumbtack.geofriends.vkapiwrapper.shared.SessionRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -8,8 +8,6 @@ import com.vk.api.sdk.objects.UserAuthResponse;
 import com.vk.api.sdk.queries.oauth.OAuthUserAuthorizationCodeFlowQuery;
 import lombok.AllArgsConstructor;
 import net.thumbtack.geofriends.vkapiwrapper.shared.Config;
-import net.thumbtack.geofriends.vkapiwrapper.shared.Session;
-import net.thumbtack.geofriends.vkapiwrapper.shared.SessionRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;

@@ -2,7 +2,6 @@ package net.thumbtack.geofriends.vkapiwrapper.auth;
 
 import lombok.AllArgsConstructor;
 import net.thumbtack.geofriends.vkapiwrapper.shared.Config;
-import net.thumbtack.geofriends.vkapiwrapper.shared.Session;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
