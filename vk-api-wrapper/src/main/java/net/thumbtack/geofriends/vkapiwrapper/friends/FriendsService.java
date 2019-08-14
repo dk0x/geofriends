@@ -15,6 +15,8 @@ import net.thumbtack.geofriends.vkapiwrapper.auth.Session;
 import net.thumbtack.geofriends.vkapiwrapper.auth.SessionNotFoundException;
 import net.thumbtack.geofriends.vkapiwrapper.auth.SessionRepository;
 import net.thumbtack.geofriends.vkapiwrapper.shared.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,28 +26,39 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class FriendsService {
+    private final static Logger log = LoggerFactory.getLogger(FriendsService.class);
 
     private Config config;
     private SessionRepository sessionRepository;
 
     public List<PersonDtoResponse> getFriends(String sessionId) throws SessionNotFoundException, AuthenticationBrokenException {
-        Session session = getSessionById(sessionId);
-        List<UserXtrLists> friends = fetchFriends(session.getAccessToken());
+        log.debug("Enter in FriendsService.getFriends(sessionId = {})", sessionId);
 
-        return convertFriendsToPersons(friends);
+        List<UserXtrLists> vkFriends = fetchFriendsByVkApi(getSessionById(sessionId).getAccessToken());
+        List<PersonDtoResponse> convertedFriends = convertFriendsToPersons(vkFriends);
+
+        log.debug("Exit from FriendsService.getFriends() with return list size {}", convertedFriends.size());
+        return convertedFriends;
     }
 
     private Session getSessionById(String sessionId) throws SessionNotFoundException {
+        log.debug("Enter in FriendsService.getSessionById(sessionId = {})", sessionId);
+
         Optional<Session> optionalSession = sessionRepository.findById(sessionId);
         if (!optionalSession.isPresent())
             throw new SessionNotFoundException();
-        return optionalSession.get();
+        Session session = optionalSession.get();
+
+        log.debug("Exit from FriendsService.getSessionById() with return {}", session);
+        return session;
     }
 
-    private List<UserXtrLists> fetchFriends(String accessToken) throws AuthenticationBrokenException {
-        VkApiClient vkApiClient = new VkApiClient(HttpTransportClient.getInstance());
-        UserActor actor = new UserActor(config.getAppId(), accessToken);
-        FriendsGetQueryWithFields query = vkApiClient.friends().getWithFields(actor, Fields.CITY, Fields.COUNTRY, Fields.PHOTO_50);
+    private List<UserXtrLists> fetchFriendsByVkApi(String accessToken) throws AuthenticationBrokenException {
+        log.debug("Enter in FriendsService.fetchFriends(accessToken = {})", accessToken);
+
+        FriendsGetQueryWithFields query = new VkApiClient(HttpTransportClient.getInstance())
+                .friends()
+                .getWithFields(new UserActor(config.getAppId(), accessToken), Fields.CITY, Fields.COUNTRY, Fields.PHOTO_50);
 
         GetFieldsResponse response;
         try {
@@ -53,7 +66,10 @@ public class FriendsService {
         } catch (ApiException | ClientException e) {
             throw new AuthenticationBrokenException(e);
         }
-        return response.getItems();
+        List<UserXtrLists> vkFriends = response.getItems();
+
+        log.debug("Exit from FriendsService.fetchFriends() with return list size {} ", vkFriends.size());
+        return vkFriends;
     }
 
     private List<PersonDtoResponse> convertFriendsToPersons(List<UserXtrLists> input) {

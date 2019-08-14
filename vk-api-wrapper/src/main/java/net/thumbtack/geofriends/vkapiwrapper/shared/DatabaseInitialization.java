@@ -24,7 +24,9 @@ public class DatabaseInitialization {
     @PostConstruct
     public void init() {
         log.debug("Enter in DatabaseInitialization.init()");
+
         createTable(Session.class);
+
         log.debug("Exit from DatabaseInitialization.init()");
     }
 
@@ -38,8 +40,6 @@ public class DatabaseInitialization {
         } catch (ResourceInUseException ex) {
             log.info("'{}' table already exist.", tClass.getSimpleName());
         }
-        log.debug("Exit from DatabaseInitialization.init()");
-
     }
 
 }
