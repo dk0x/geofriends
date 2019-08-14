@@ -12,7 +12,8 @@
 <!--        <module>google-earth-api-wrapper</module>-->
         <module>vk-api-wrapper</module>
         <module>backend-http</module>
-<!--        <module>frontend-web</module>-->
+        <module>dynamo-db-wrapper</module>
+        <!--        <module>frontend-web</module>-->
     </modules>
 
     <properties>

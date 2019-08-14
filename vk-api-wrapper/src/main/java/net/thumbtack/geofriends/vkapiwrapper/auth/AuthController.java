@@ -1,7 +1,7 @@
 package net.thumbtack.geofriends.vkapiwrapper.auth;
 
 import lombok.AllArgsConstructor;
-import net.thumbtack.geofriends.vkapiwrapper.shared.Config;
+import net.thumbtack.geofriends.vkapiwrapper.shared.VkApiConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +23,7 @@ public class AuthController {
         log.debug("Enter in AuthController.auth(code = {})", code);
 
         Session session = authService.authByCode(code);
-        Cookie cookie = new Cookie(Config.SESSION_COOKIE_NAME, session.getSessionId());
+        Cookie cookie = new Cookie(VkApiConfig.SESSION_COOKIE_NAME, session.getSessionId());
         cookie.setPath("/");
         httpServletResponse.addCookie(cookie);
 

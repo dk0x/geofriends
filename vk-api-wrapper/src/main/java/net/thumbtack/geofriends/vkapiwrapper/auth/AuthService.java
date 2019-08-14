@@ -7,7 +7,7 @@ import com.vk.api.sdk.httpclient.HttpTransportClient;
 import com.vk.api.sdk.objects.UserAuthResponse;
 import com.vk.api.sdk.queries.oauth.OAuthUserAuthorizationCodeFlowQuery;
 import lombok.AllArgsConstructor;
-import net.thumbtack.geofriends.vkapiwrapper.shared.Config;
+import net.thumbtack.geofriends.vkapiwrapper.shared.VkApiConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class AuthService {
 
     private final static Logger log = LoggerFactory.getLogger(AuthService.class);
 
-    private Config config;
+    private VkApiConfig vkApiConfig;
     private SessionRepository sessionRepository;
 
     public Session authByCode(String code) throws AuthCodeInvalidException {
@@ -38,7 +38,7 @@ public class AuthService {
 
         VkApiClient vkApiClient = new VkApiClient(HttpTransportClient.getInstance());
         OAuthUserAuthorizationCodeFlowQuery query = vkApiClient.oAuth().userAuthorizationCodeFlow(
-                config.getAppId(), config.getClientSecret(), config.getAuthorizeRedirectUri(), code);
+                vkApiConfig.getAppId(), vkApiConfig.getClientSecret(), vkApiConfig.getAuthorizeRedirectUri(), code);
 
         UserAuthResponse authResponse;
         try {

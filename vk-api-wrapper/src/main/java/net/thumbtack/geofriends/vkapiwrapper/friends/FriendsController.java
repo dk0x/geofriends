@@ -3,7 +3,7 @@ package net.thumbtack.geofriends.vkapiwrapper.friends;
 import lombok.AllArgsConstructor;
 import net.thumbtack.geofriends.vkapiwrapper.auth.AuthenticationBrokenException;
 import net.thumbtack.geofriends.vkapiwrapper.auth.SessionNotFoundException;
-import net.thumbtack.geofriends.vkapiwrapper.shared.Config;
+import net.thumbtack.geofriends.vkapiwrapper.shared.VkApiConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -20,7 +20,7 @@ public class FriendsController {
     private FriendsService friendsService;
 
     @GetMapping("/vk/friends")
-    public List<PersonDtoResponse> friends(@CookieValue(Config.SESSION_COOKIE_NAME) String sessionId) throws SessionNotFoundException, AuthenticationBrokenException {
+    public List<PersonDtoResponse> friends(@CookieValue(VkApiConfig.SESSION_COOKIE_NAME) String sessionId) throws SessionNotFoundException, AuthenticationBrokenException {
         log.debug("Enter in FriendsController.friends(sessionId = {})", sessionId);
 
         List<PersonDtoResponse> friends = friendsService.getFriends(sessionId);

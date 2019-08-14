@@ -14,7 +14,7 @@ import net.thumbtack.geofriends.vkapiwrapper.auth.AuthenticationBrokenException;
 import net.thumbtack.geofriends.vkapiwrapper.auth.Session;
 import net.thumbtack.geofriends.vkapiwrapper.auth.SessionNotFoundException;
 import net.thumbtack.geofriends.vkapiwrapper.auth.SessionRepository;
-import net.thumbtack.geofriends.vkapiwrapper.shared.Config;
+import net.thumbtack.geofriends.vkapiwrapper.shared.VkApiConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 public class FriendsService {
     private final static Logger log = LoggerFactory.getLogger(FriendsService.class);
 
-    private Config config;
+    private VkApiConfig vkApiConfig;
     private SessionRepository sessionRepository;
 
     public List<PersonDtoResponse> getFriends(String sessionId) throws SessionNotFoundException, AuthenticationBrokenException {
@@ -58,7 +58,7 @@ public class FriendsService {
 
         FriendsGetQueryWithFields query = new VkApiClient(HttpTransportClient.getInstance())
                 .friends()
-                .getWithFields(new UserActor(config.getAppId(), accessToken), Fields.CITY, Fields.COUNTRY, Fields.PHOTO_50);
+                .getWithFields(new UserActor(vkApiConfig.getAppId(), accessToken), Fields.CITY, Fields.COUNTRY, Fields.PHOTO_50);
 
         GetFieldsResponse response;
         try {

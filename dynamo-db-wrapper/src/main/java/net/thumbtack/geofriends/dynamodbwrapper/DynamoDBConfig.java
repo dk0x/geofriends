@@ -1,4 +1,4 @@
-package net.thumbtack.geofriends.vkapiwrapper.shared;
+package net.thumbtack.geofriends.dynamodbwrapper;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -8,7 +8,6 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import lombok.Getter;
 import lombok.Setter;
-import org.socialsignin.spring.data.dynamodb.repository.config.EnableDynamoDBRepositories;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +18,6 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "dynamodb")
 @Setter
 @Getter
-@EnableDynamoDBRepositories(basePackages = "net.thumbtack.geofriends.vkapiwrapper.auth")
 public class DynamoDBConfig {
     private String endpoint;
     private String region;
