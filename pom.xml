@@ -13,7 +13,7 @@
         <module>dynamo-db-wrapper</module>
         <module>google-earth-api-wrapper</module>
         <module>vk-api-wrapper</module>
-        <!--        <module>frontend-web</module>-->
+        <module>frontend-web</module>
     </modules>
 
     <properties>

@@ -18,7 +18,7 @@ public class GeocodeController {
 
     private GeocodeService geocodeService;
 
-    @PostMapping("/geo/geocode")
+    @PostMapping("/api/geo/geocode")
     public List<City> geocode(@RequestBody List<City> cities) throws ApiException {
         log.debug("Enter in GeocodeController.geocode(cities = {})", cities);
 

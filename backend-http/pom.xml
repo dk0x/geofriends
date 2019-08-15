@@ -22,6 +22,11 @@
             <artifactId>google-earth-api-wrapper</artifactId>
             <version>0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>net.thumbtack.geofriends</groupId>
+            <artifactId>frontend-web</artifactId>
+            <version>0.1-SNAPSHOT</version>
+        </dependency>
 
 
         <dependency>

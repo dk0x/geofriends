@@ -19,7 +19,7 @@ public class FriendsController {
 
     private FriendsService friendsService;
 
-    @GetMapping("/vk/friends")
+    @GetMapping("/api/vk/friends")
     public List<PersonDtoResponse> friends(@CookieValue(VkApiConfig.SESSION_COOKIE_NAME) String sessionId) throws SessionNotFoundException, AuthenticationBrokenException {
         log.debug("Enter in FriendsController.friends(sessionId = {})", sessionId);
 

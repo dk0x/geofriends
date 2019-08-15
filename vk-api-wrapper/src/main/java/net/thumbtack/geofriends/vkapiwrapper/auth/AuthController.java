@@ -18,7 +18,7 @@ public class AuthController {
 
     private AuthService authService;
 
-    @PostMapping("/vk/auth")
+    @PostMapping("/api/vk/auth")
     public void auth(@RequestParam String code, HttpServletResponse httpServletResponse) throws AuthCodeInvalidException {
         log.debug("Enter in AuthController.auth(code = {})", code);
 
