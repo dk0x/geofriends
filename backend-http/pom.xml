@@ -17,12 +17,24 @@
             <artifactId>vk-api-wrapper</artifactId>
             <version>0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>net.thumbtack.geofriends</groupId>
+            <artifactId>google-earth-api-wrapper</artifactId>
+            <version>0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>net.thumbtack.geofriends</groupId>
+            <artifactId>frontend-web</artifactId>
+            <version>0.1-SNAPSHOT</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <version>2.1.7.RELEASE</version>
         </dependency>
+
 
         <dependency>
             <groupId>junit</groupId>
@@ -37,15 +49,36 @@
             <scope>test</scope>
         </dependency>
 
-
-
-<!--        <dependency>-->
-<!--            <groupId>com.google.maps</groupId>-->
-<!--            <artifactId>google-maps-services</artifactId>-->
-<!--            <version>0.9.4</version>-->
-<!--        </dependency>-->
-
-
-
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>net.thumbtack.geofriends.Server</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>net.thumbtack.geofriends.Server</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

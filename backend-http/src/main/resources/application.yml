@@ -1,0 +1,24 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+
+server:
+  port: ${server-port:8080}
+
+vkapi:
+  app-id: ${vk-api-id:-1}
+  client-secret: ${vk-api-client-secret:notSpecified}
+  authorize-redirect-uri: ${server-protocol:http}://${server-host:localhost}:${server-port:8080}
+
+google-earth-api:
+  api-key: ${google-earth-api-key:notSpecified}
+
+dynamodb:
+  endpoint: ${dynamodb-endpoint:}
+  region: ${dynamodb-region:}
+  access-key: ${dynamodb-access-key:}test
+  secret-key: ${dynamodb-secret-key:}test
+
+logging:
+  level:
+    net.thumbtack.geofriends: DEBUG

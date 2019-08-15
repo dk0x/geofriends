@@ -1,0 +1,13 @@
+server-protocol: [http or https]
+server-host: [localhost or site.com or something]
+server-port: [8080 by default]
+
+dynamodb-endpoint: [http://localhost:8000/ if dynamoDB runed localy, remove this line or blank it if not]
+dynamodb-region: [DynamoDB region, like eu-central-1]
+dynamodb-access-key: [AWS access key]
+dynamodb-secret-key: [AWS secret key]
+
+vk-api-id: [your VK App ID]
+vk-api-client-secret: [your VK SecretKey]
+
+google-earth-api-key: [your Google API key with 'Geocoding API' access granted]
