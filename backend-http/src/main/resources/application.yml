@@ -3,21 +3,21 @@ spring:
     allow-bean-definition-overriding: true
 
 server:
-  port: 8080
+  port: ${server-port:8080}
 
 vkapi:
-  app-id: 7087056
+  app-id: ${vk-api-id:-1}
   client-secret: ${vk-api-client-secret:notSpecified}
-  authorize-redirect-uri: http://localhost:8080
+  authorize-redirect-uri: ${server-protocol:http}://${server-host:localhost}:${server-port:8080}
 
 google-earth-api:
   api-key: ${google-earth-api-key:notSpecified}
 
 dynamodb:
-  endpoint: http://localhost:8000/
-  region: eu-central-1
-  access-key: test
-  secret-key: test
+  endpoint: ${dynamodb-endpoint:}
+  region: ${dynamodb-region:}
+  access-key: ${dynamodb-access-key:}test
+  secret-key: ${dynamodb-secret-key:}test
 
 logging:
   level:

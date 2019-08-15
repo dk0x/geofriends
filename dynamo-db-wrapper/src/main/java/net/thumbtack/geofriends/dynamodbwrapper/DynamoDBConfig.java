@@ -31,10 +31,13 @@ public class DynamoDBConfig {
 
     @Bean
     public AmazonDynamoDB amazonDynamoDB() {
-        return AmazonDynamoDBClientBuilder.standard()
-                .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey)))
-                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(endpoint, region))
-                .build();
+        AmazonDynamoDBClientBuilder builder = AmazonDynamoDBClientBuilder.standard();
+        builder.withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey)));
+        if (endpoint.isEmpty())
+            builder.withRegion(region);
+        else
+            builder.withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(endpoint, region));
+        return builder.build();
     }
 
 }
