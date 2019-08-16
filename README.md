@@ -1,3 +1,6 @@
+master: [![Build Status](https://travis-ci.org/dk0x/geofriends.svg?branch=master)](https://travis-ci.org/dk0x/geofriends)  
+develop: [![Build Status](https://travis-ci.org/dk0x/geofriends.svg?branch=develop)](https://travis-ci.org/dk0x/geofriends)
+
 # GeoFriends
 
 How to setup dev environment:  
