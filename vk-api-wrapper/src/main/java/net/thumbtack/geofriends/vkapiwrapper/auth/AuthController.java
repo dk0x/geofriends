@@ -1,5 +1,7 @@
 package net.thumbtack.geofriends.vkapiwrapper.auth;
 
+import com.vk.api.sdk.exceptions.ApiException;
+import com.vk.api.sdk.exceptions.ClientException;
 import lombok.AllArgsConstructor;
 import net.thumbtack.geofriends.vkapiwrapper.shared.VkApiConfig;
 import org.slf4j.Logger;
@@ -19,7 +21,7 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/api/vk/auth")
-    public void auth(@RequestParam String code, HttpServletResponse httpServletResponse) throws AuthCodeInvalidException {
+    public void auth(@RequestParam String code, HttpServletResponse httpServletResponse) throws ClientException, ApiException {
         log.debug("Enter in AuthController.auth(code = {})", code);
 
         Session session = authService.authByCode(code);
