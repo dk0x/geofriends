@@ -19,13 +19,17 @@
 <a class="sign-in" id="signIn">SIGN IN VIA VK.COM</a>
     <div id="map" class="map"></div>
 <script defer>
-        //setTimeout(function() {
-            const vkOauthUri = 'https://oauth.vk.com/authorize' +
+        {
+            let host = location.host;
+            let splited = host.split(':');
+            if (host.split(':')[1] != '80')
+                host = host + ':80';
+            let vkOauthUri = 'https://oauth.vk.com/authorize' +
                 '?client_id=7087056&display=page&scope=friends&response_type=code&v=5.101' +
-                '&redirect_uri=' + location.protocol + '//' + location.host;
+                '&redirect_uri=' + location.protocol + '//' + host;
             let sighIn = document.getElementById('signIn');
             signIn.setAttribute('href', vkOauthUri);
-        //}, 2000);
+        }
     </script>
 </body>
 
