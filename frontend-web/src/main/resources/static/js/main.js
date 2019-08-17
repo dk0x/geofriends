@@ -76,7 +76,7 @@ function getCityById(cities, id) {
 }
 
 function showFriendsOnMap(friends, cities) {
-    let signIn = document.getElementById("sign-in").remove();
+    let signIn = document.getElementById("signIn").remove();
     let map = L.map('map');
     map.setView([54.9884804, 73.3242361], 13);
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
