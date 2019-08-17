@@ -16,8 +16,8 @@ google-earth-api:
 dynamodb:
   endpoint: ${dynamodb-endpoint:}
   region: ${dynamodb-region:}
-  access-key: ${dynamodb-access-key:}test
-  secret-key: ${dynamodb-secret-key:}test
+  access-key: ${dynamodb-access-key:}
+  secret-key: ${dynamodb-secret-key:}
 
 logging:
   level:
