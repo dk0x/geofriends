@@ -2,6 +2,7 @@ target/
 logs/
 .idea/
 .vscode/
+deploy_keys/
 
 ### secret keys config ###
 **/config/application.yml
