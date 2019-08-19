@@ -8,11 +8,10 @@ before_deploy:
   - eval "$(ssh-agent -s)"
   - chmod 600 ./rsa_dec
   - ssh-add ./rsa_dec
-#- ls $TRAVIS_BUILD_DIR/backend-http/
 
 deploy:
   provider: script
   skip_cleanup: true
   on:
     branch: master
-  script: scp -4 $TRAVIS_BUILD_DIR/backend-http/target/backend-http-0.1-SNAPSHOT.jar ubuntu@ec2-3-122-55-117.eu-central-1.compute.amazonaws.com:build.jar
+  script: scp -4 $TRAVIS_BUILD_DIR/backend-http/target/backend-http-0.1-SNAPSHOT.jar ubuntu@ec2-3-122-55-117.eu-central-1.compute.amazonaws.com:build.jar && ssh -4 ubuntu@ec2-3-122-55-117.eu-central-1.compute.amazonaws.com 'sudo systemctl restart geofriends.service'
