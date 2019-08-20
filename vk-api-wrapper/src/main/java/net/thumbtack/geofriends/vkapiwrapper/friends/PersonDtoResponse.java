@@ -3,15 +3,9 @@ package net.thumbtack.geofriends.vkapiwrapper.friends;
 import com.vk.api.sdk.objects.base.BaseObject;
 import com.vk.api.sdk.objects.base.Country;
 import com.vk.api.sdk.objects.friends.UserXtrLists;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.Data;
 
-@AllArgsConstructor
-@Getter
-@EqualsAndHashCode
-@ToString
+@Data
 public class PersonDtoResponse {
     private final int id;
     private final String firstName;

@@ -75,6 +75,27 @@ function getCityById(cities, id) {
     }
 }
 
+
+let cityIdSamePlaceCounters = [];
+function getOffsetForCoordByCityId(id) {
+    if (cityIdSamePlaceCounters[id] === undefined) {
+        cityIdSamePlaceCounters[id] = 0;
+    }
+    cityIdSamePlaceCounters[id]++;
+
+    let counter = cityIdSamePlaceCounters[id];
+    let radius = counter * 0.001;
+    let placesInCircle = 360 / 10 - 1;
+    let placeInCircle = counter;
+    let deg = placeInCircle * 10;
+    let rad = deg * (Math.PI / 180);
+
+    let x = Math.sin(rad) * radius;
+    let y = Math.cos(rad) * radius;
+
+    return { x, y };
+}
+
 function showFriendsOnMap(friends, cities) {
     let signIn = document.getElementById("signIn").remove();
     let map = L.map('map');
@@ -87,16 +108,21 @@ function showFriendsOnMap(friends, cities) {
         id: 'mapbox.streets'
     }).addTo(map);
 
+    let clusterGroup = L.markerClusterGroup();
+
     friends.forEach(friend => {
         if (friend.cityId != -1) {
             const city = getCityById(cities, friend.cityId);
-            L.marker([city.latitude, city.longitude])
-                .addTo(map)
-                .bindPopup('<p>' + friend.firstName + ' ' + friend.lastName + '</p>' +
-                    '<img style="width: 50px;height: 50px;" src="' + friend.photoUri + '">')
-                .openPopup();
+
+            let offsets = getOffsetForCoordByCityId(city.id);
+            let marker = L.marker([city.latitude + offsets.y * 0.65, city.longitude + offsets.x]);
+            marker.bindPopup('<p>' + friend.firstName + ' ' + friend.lastName + '</p>' +
+                '<img style="width: 50px;height: 50px;" src="' + friend.photoUri + '">');
+            marker.openPopup();
+            clusterGroup.addLayer(marker);
         }
     });
+    map.addLayer(clusterGroup);
 }
 
 async function main() {

@@ -7,12 +7,11 @@ import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.objects.friends.UserXtrLists;
 import com.vk.api.sdk.objects.users.Fields;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.thumbtack.geofriends.vkapiwrapper.auth.Session;
 import net.thumbtack.geofriends.vkapiwrapper.auth.SessionRepository;
 import net.thumbtack.geofriends.vkapiwrapper.shared.SessionNotFoundException;
 import net.thumbtack.geofriends.vkapiwrapper.shared.VkApiConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,9 +20,8 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class FriendsService {
-    private final static Logger log = LoggerFactory.getLogger(FriendsService.class);
-
     private VkApiClient vkApiClient;
     private VkApiConfig vkApiConfig;
     private SessionRepository sessionRepository;

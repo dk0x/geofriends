@@ -3,9 +3,8 @@ package net.thumbtack.geofriends.vkapiwrapper.auth;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.thumbtack.geofriends.vkapiwrapper.shared.VkApiConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,9 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @AllArgsConstructor
+@Slf4j
 public class AuthController {
-    private final static Logger log = LoggerFactory.getLogger(AuthController.class);
-
     private AuthService authService;
 
     @PostMapping("/api/vk/auth")

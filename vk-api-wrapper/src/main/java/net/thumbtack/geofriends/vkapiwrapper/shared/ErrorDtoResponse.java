@@ -1,14 +1,8 @@
 package net.thumbtack.geofriends.vkapiwrapper.shared;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.Data;
 
-@AllArgsConstructor
-@Getter
-@EqualsAndHashCode
-@ToString
+@Data
 public class ErrorDtoResponse {
     private final String errorCode;
     private final String description;
