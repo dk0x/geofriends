@@ -113,11 +113,17 @@ function showFriendsOnMap(friends, cities) {
     friends.forEach(friend => {
         if (friend.cityId != -1) {
             const city = getCityById(cities, friend.cityId);
-
             let offsets = getOffsetForCoordByCityId(city.id);
-            let marker = L.marker([city.latitude + offsets.y * 0.65, city.longitude + offsets.x]);
-            marker.bindPopup('<p>' + friend.firstName + ' ' + friend.lastName + '</p>' +
-                '<img style="width: 50px;height: 50px;" src="' + friend.photoUri + '">');
+
+            let markerIconWithPhoto = L.icon({
+                iconUrl: friend.photoUri,
+                iconSize: [50, 50]
+            });
+
+            let marker = L.marker(
+                [city.latitude + offsets.y * 0.65, city.longitude + offsets.x],
+                { icon: markerIconWithPhoto });
+            marker.bindPopup(friend.firstName + ' ' + friend.lastName);
             marker.openPopup();
             clusterGroup.addLayer(marker);
         }

@@ -27,3 +27,8 @@ body {
     width: 100%;
     height: 100%;
 }
+
+.leaflet-marker-icon {
+    border: 3px solid lightseagreen;
+    border-radius: 30px;
+}
