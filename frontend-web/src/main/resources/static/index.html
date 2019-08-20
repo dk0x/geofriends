@@ -11,6 +11,9 @@
         integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
         crossorigin=""></script>
 
+    <link href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" rel="stylesheet">
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+
     <link rel="stylesheet" href="style.css" />
     <script src="js/main.js"></script>
 </head>
@@ -21,8 +24,7 @@
 <script defer>
         {
             let host = location.host;
-            let splited = host.split(':');
-            if (host.split(':')[1] != '80')
+            if (host.split(':').length === 1)
                 host = host + ':80';
             let vkOauthUri = 'https://oauth.vk.com/authorize' +
                 '?client_id=7087056&display=page&scope=friends&response_type=code&v=5.101' +
