@@ -14,8 +14,9 @@
     <link href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" rel="stylesheet">
     <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
 
-    <link rel="stylesheet" href="style.css" />
-    <script src="js/main.js"></script>
+    <link href="css/style.css" rel="stylesheet"/>
+    <link href="css/loader.css" rel="stylesheet"/>
+    <script defer src="js/main.js"></script>
 </head>
 
 <body>
@@ -33,6 +34,20 @@
             signIn.setAttribute('href', vkOauthUri);
         }
     </script>
+
+
+<div class="fullscreen-loader" id="loadingIndicator">
+    <div class="loader">
+        <div class="duo duo1">
+            <div class="dot dot-a"></div>
+            <div class="dot dot-b"></div>
+        </div>
+        <div class="duo duo2">
+            <div class="dot dot-a"></div>
+            <div class="dot dot-b"></div>
+        </div>
+    </div>
+</div>
 </body>
 
 </html>

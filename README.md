@@ -26,8 +26,8 @@ Base domain: your host name or localhost
 ```
 Click 'Connect website' button  
 Go to settings  
-Copy 'App ID' and 'Secure key' to application.yml (vk-api-id and vk-api-client-secret)
-Add to 'Authorized redirect URI' your host with protocol and http://localhost for development  
+Copy 'App ID' and 'Secure key' to application.yml (vk-api-id and vk-api-client-secret)  
+Add to 'Authorized redirect URI' your host with protocol and http://localhost:[port] for development  
 Click 'Save' button. That all for Vk.
 
 
@@ -55,7 +55,7 @@ Run it
 java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb
 ```
 
-That all.
+That's all.
 Just make sure for your app can access to config file (./config/application.yml) 
   
 To run jar:
