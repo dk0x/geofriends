@@ -1,3 +1,12 @@
+function showLoading() {
+    document.getElementById("loadingIndicator").style.display = "unset";
+}
+function hideLoading() {
+    document.getElementById("loadingIndicator").style.display = "none";
+}
+hideLoading();
+
+
 const HOST = location.protocol + '//' + location.host;
 const API_URL = HOST + '/api';
 
@@ -102,9 +111,7 @@ function showFriendsOnMap(friends, cities) {
     map.setView([54.9884804, 73.3242361], 13);
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
         maxZoom: 18,
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-            '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-            'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
         id: 'mapbox.streets'
     }).addTo(map);
 
@@ -117,14 +124,15 @@ function showFriendsOnMap(friends, cities) {
 
             let markerIconWithPhoto = L.icon({
                 iconUrl: friend.photoUri,
-                iconSize: [50, 50]
+                iconSize: [50, 50],
+                popupAnchor: [0, -20]
             });
 
             let marker = L.marker(
                 [city.latitude + offsets.y * 0.65, city.longitude + offsets.x],
                 { icon: markerIconWithPhoto });
             marker.bindPopup(friend.firstName + ' ' + friend.lastName);
-            marker.openPopup();
+            // marker.addTo(map);
             clusterGroup.addLayer(marker);
         }
     });
@@ -134,14 +142,18 @@ function showFriendsOnMap(friends, cities) {
 async function main() {
     const vkOauthCode = getUrlParameter('code');
     if (vkOauthCode != null) {
+        showLoading();
         await authByCode(vkOauthCode);
+        hideLoading();
         document.location = HOST;
     } else {
         if (getCookie("vkSessionId") != undefined) {
+            showLoading();
             const friends = await fetchFriends();
             const cities = extractCitiesFromFriends(friends);
             const geocodedCities = await geocodeCities(cities);
             showFriendsOnMap(friends, geocodedCities);
+            hideLoading();
         }
     }
 }
