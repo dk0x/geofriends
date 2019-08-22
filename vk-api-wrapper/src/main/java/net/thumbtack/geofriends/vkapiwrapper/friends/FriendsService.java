@@ -40,8 +40,11 @@ public class FriendsService {
         log.debug("Enter in FriendsService.getSessionById(sessionId = {})", sessionId);
 
         Optional<Session> optionalSession = sessionRepository.findById(sessionId);
-        if (!optionalSession.isPresent())
-            throw new SessionNotFoundException();
+        if (!optionalSession.isPresent()) {
+            SessionNotFoundException sessionNotFoundException = new SessionNotFoundException();
+            log.debug("Exit from FriendsService.getSessionById() by throwing {} with message {}", sessionNotFoundException.getClass().getName(), sessionNotFoundException.getMessage());
+            throw sessionNotFoundException;
+        }
         Session session = optionalSession.get();
 
         log.debug("Exit from FriendsService.getSessionById() with return {}", session);

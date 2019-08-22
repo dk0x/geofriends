@@ -1,14 +1,30 @@
+const COOKIE_NAME_VK_SESSION_ID = "vkSessionId";
+const HOST = location.protocol + '//' + location.host;
+const API_URL = HOST + '/api';
+
+
 function showLoading() {
-    document.getElementById("loadingIndicator").style.display = "unset";
+    document.getElementById("loadingIndicator").style.display = '';
 }
 function hideLoading() {
     document.getElementById("loadingIndicator").style.display = "none";
 }
-hideLoading();
+
+function showSignInButton() {
+    let host = location.host;
+    if (host.split(':').length === 1)
+        host = host + ':80';
+    let vkOauthUri = 'https://oauth.vk.com/authorize' +
+        '?client_id=7087056&display=page&scope=friends&response_type=code&v=5.101' +
+        '&redirect_uri=' + location.protocol + '//' + host;
+    document.getElementById('signInButton').setAttribute('href', vkOauthUri);
+    document.getElementById('signInWrapper').style.display = '';
+}
+function hideSignInButton() {
+    document.getElementById('signInWrapper').style.display = 'none';
+}
 
 
-const HOST = location.protocol + '//' + location.host;
-const API_URL = HOST + '/api';
 
 function getCookie(name) {
     const matches = document.cookie.match(new RegExp(
@@ -23,26 +39,19 @@ function getUrlParameter(name) {
     return params.get(name);
 }
 
-function showMessage(msg, timeout) {
-    console.log(msg);
-    // TODO: realize popup with timeout
-}
-
 async function authByCode(code) {
-    try {
-        await fetch(API_URL + '/vk/auth?' + 'code=' + code, { method: 'POST' });
-    } catch (err) {
-        showMessage(err, 5);
-    }
+    let response = await fetch(API_URL + '/vk/auth?code=' + code, {
+        method: 'POST'
+    });
+    if (response.status != 200)
+        throw await response.json();
 }
 
 async function fetchFriends() {
-    try {
-        const response = await fetch(API_URL + '/vk/friends');
-        return await response.json();
-    } catch (err) {
-        showMessage(err);
-    }
+    let response = await fetch(API_URL + '/vk/friends');
+    if (response.status != 200)
+        throw await response.json();
+    return await response.json();
 }
 
 function extractCitiesFromFriends(friends) {
@@ -62,18 +71,16 @@ function extractCitiesFromFriends(friends) {
 }
 
 async function geocodeCities(cities) {
-    try {
-        const response = await fetch(API_URL + '/geo/geocode', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(cities),
-        });
-        return await response.json();
-    } catch (err) {
-        showMessage(err);
-    }
+    let response = await fetch(API_URL + '/geo/geocode', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(cities),
+    });
+    if (response.status != 200)
+        throw await response.json();
+    return await response.json();
 }
 
 function getCityById(cities, id) {
@@ -106,7 +113,6 @@ function getOffsetForCoordByCityId(id) {
 }
 
 function showFriendsOnMap(friends, cities) {
-    let signIn = document.getElementById("signIn").remove();
     let map = L.map('map');
     map.setView([54.9884804, 73.3242361], 13);
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
@@ -119,7 +125,7 @@ function showFriendsOnMap(friends, cities) {
 
     friends.forEach(friend => {
         if (friend.cityId != -1) {
-            const city = getCityById(cities, friend.cityId);
+            let city = getCityById(cities, friend.cityId);
             let offsets = getOffsetForCoordByCityId(city.id);
 
             let markerIconWithPhoto = L.icon({
@@ -139,21 +145,62 @@ function showFriendsOnMap(friends, cities) {
     map.addLayer(clusterGroup);
 }
 
+function clearSession() {
+    document.cookie = COOKIE_NAME_VK_SESSION_ID + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;";
+}
+
+async function forgetMe() {
+    showLoading();
+    let response = await fetch(API_URL + '/vk/forgetMe', {
+        method: 'DELETE'
+    });
+    if (response.status != 200)
+        throw await response.json();
+    clearSession();
+    location.reload();
+}
+
 async function main() {
-    const vkOauthCode = getUrlParameter('code');
-    if (vkOauthCode != null) {
-        showLoading();
-        await authByCode(vkOauthCode);
+    try {
         hideLoading();
-        document.location = HOST;
-    } else {
-        if (getCookie("vkSessionId") != undefined) {
+        hideSignInButton();
+
+        let vkOauthCode = getUrlParameter('code');
+        let itsVkRedirect = vkOauthCode != null;
+        if (itsVkRedirect) {
             showLoading();
-            const friends = await fetchFriends();
-            const cities = extractCitiesFromFriends(friends);
-            const geocodedCities = await geocodeCities(cities);
+            await authByCode(vkOauthCode);
+            hideLoading();
+            document.location = HOST;
+            return;
+        }
+
+        let userAlreadyHaveSession = getCookie(COOKIE_NAME_VK_SESSION_ID) != undefined;
+        if (userAlreadyHaveSession) {
+            showLoading();
+            let friends = await fetchFriends();
+            let cities = extractCitiesFromFriends(friends);
+            let geocodedCities = await geocodeCities(cities);
             showFriendsOnMap(friends, geocodedCities);
             hideLoading();
+            return;
+        }
+
+        // otherwise show sign in button
+        showSignInButton();
+    } catch (err) {
+        switch (err.errorCode) {
+            case 'VK_AUTH_EXPIRED', 'SESSION_EXPIRED': {
+                clearSession();
+                location.reload();
+            } break;
+            case 'NOT_PROPERLY_HANDLED_EXCEPTION_CATCHED': {
+                // display msg like 'Please send to support this error token'
+                console.log(err.description);
+            } break;
+            default: {
+                console.log(err);
+            }
         }
     }
 }
