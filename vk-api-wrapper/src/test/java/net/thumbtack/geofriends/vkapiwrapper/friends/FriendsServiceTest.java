@@ -76,10 +76,10 @@ public class FriendsServiceTest {
 
         FriendsService friendsService = new FriendsService(vkApiClient, vkApiConfig, sessionRepository);
         List<PersonDtoResponse> persons = friendsService.getFriends(TEST_SESSION_ID);
-        List<PersonDtoResponse> expectedPersons = new ArrayList<>();
-        expectedPersons.add(PersonDtoResponse.createFromUserXtrLists(userFromVkApi));
 
-        assertThat(persons).isEqualTo(expectedPersons);
+        assertThat(persons).
+                hasSize(1).
+                contains(PersonDtoResponse.createFromUserXtrLists(userFromVkApi));
     }
 
     private UserXtrLists createVkUser() throws MalformedURLException {

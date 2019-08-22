@@ -1,11 +1,3 @@
-.fullscreen-loader {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    margin: auto;
-    background-color: white;
-}
-
 .loader {
     position: relative;
     width: 80px;
