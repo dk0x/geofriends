@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -28,12 +29,20 @@ public class AuthControllerTest {
     private AuthService authService;
 
     @Test
-    public void auth_whenCorrect_mustSetCookie() throws Exception {
+    public void auth_whenCorrect_mustHttpStatusOk() throws Exception {
         when(authService.authByCode(anyString())).thenReturn(new Session(TEST_SESSION_ID, TEST_ACCESS_TOKEN));
 
-        mvc.perform(post("/api/vk/auth")
-                .param("code", TEST_CORRECT_CODE)
-        ).andExpect(status().isOk())
-                .andExpect(cookie().value(VkApiConfig.SESSION_COOKIE_NAME, TEST_SESSION_ID));
+        ResultActions resultActions = mvc.perform(post("/api/vk/auth").param("code", TEST_CORRECT_CODE));
+
+        resultActions.andExpect(status().isOk());
+    }
+
+    @Test
+    public void auth_whenCorrect_mustSetCorrectCookie() throws Exception {
+        when(authService.authByCode(anyString())).thenReturn(new Session(TEST_SESSION_ID, TEST_ACCESS_TOKEN));
+
+        ResultActions resultActions = mvc.perform(post("/api/vk/auth").param("code", TEST_CORRECT_CODE));
+
+        resultActions.andExpect(cookie().value(VkApiConfig.SESSION_COOKIE_NAME, TEST_SESSION_ID));
     }
 }
