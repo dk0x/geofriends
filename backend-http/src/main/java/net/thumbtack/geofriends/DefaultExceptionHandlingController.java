@@ -1,7 +1,7 @@
 package net.thumbtack.geofriends;
 
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import net.thumbtack.geofriends.vkapiwrapper.shared.ErrorDtoResponse;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,7 +20,17 @@ public class DefaultExceptionHandlingController {
     public ErrorDtoResponse handleException(Exception ex) {
         String uniqueString = UUID.randomUUID().toString();
         log.error("Catched not properly handled exception (marker: '{}'). Exception: {} ", uniqueString, ex);
-        return new ErrorDtoResponse("NOT_PROPERLY_HANDLED_EXCEPTION_CATCHED", "Log marker: " + uniqueString);
+        return new ErrorDtoResponse(ErrorCode.NOT_PROPERLY_HANDLED_EXCEPTION_CATCHED, "Please send to tech support this log marker: " + uniqueString);
+    }
+
+    protected enum ErrorCode {
+        NOT_PROPERLY_HANDLED_EXCEPTION_CATCHED
+    }
+
+    @Data
+    protected static class ErrorDtoResponse {
+        private final ErrorCode errorCode;
+        private final String description;
     }
 
 }
