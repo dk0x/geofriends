@@ -2,6 +2,7 @@ package net.thumbtack.geofriends.vkapiwrapper.auth;
 
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
+import net.thumbtack.geofriends.vkapiwrapper.TestHelper;
 import net.thumbtack.geofriends.vkapiwrapper.shared.VkApiConfig;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,9 +20,6 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AuthServiceTest {
-    private static final String TEST_CORRECT_CODE = "correctCode";
-    private static final String TEST_ACCESS_TOKEN = "accessToken";
-
     @Mock
     private VkApiConfig vkApiConfig;
     @Mock
@@ -36,23 +34,25 @@ public class AuthServiceTest {
 
     @Test
     public void authByCode_whenCorrect_mustSaveSessionToStorage() throws ClientException, ApiException {
-        when(vkOAuthProvider.exchangeCodeForAccessToken(any(), anyInt(), any(), any())).thenReturn(TEST_ACCESS_TOKEN);
+        when(vkOAuthProvider.exchangeCodeForAccessToken(any(), anyInt(), any(), any())).
+                thenReturn(TestHelper.TEST_ACCESS_TOKEN);
         AuthService authService = new AuthService(vkApiConfig, vkOAuthProvider, sessionRepository);
 
-        Session session = authService.authByCode(TEST_CORRECT_CODE);
+        Session session = authService.authByCode(TestHelper.TEST_CORRECT_CODE);
 
         verify(sessionRepository).save(eq(session));
     }
 
     @Test
     public void authByCode_whenCorrect_mustReturnValidSession() throws ClientException, ApiException {
-        when(vkOAuthProvider.exchangeCodeForAccessToken(eq(TEST_CORRECT_CODE), anyInt(), any(), any())).thenReturn(TEST_ACCESS_TOKEN);
+        when(vkOAuthProvider.exchangeCodeForAccessToken(eq(TestHelper.TEST_CORRECT_CODE), anyInt(), any(), any())).
+                thenReturn(TestHelper.TEST_ACCESS_TOKEN);
         AuthService authService = new AuthService(vkApiConfig, vkOAuthProvider, sessionRepository);
 
-        Session session = authService.authByCode(TEST_CORRECT_CODE);
+        Session session = authService.authByCode(TestHelper.TEST_CORRECT_CODE);
 
         assertThat(session.getSessionId()).isNotBlank();
-        assertThat(session.getAccessToken()).isEqualTo(TEST_ACCESS_TOKEN);
+        assertThat(session.getAccessToken()).isEqualTo(TestHelper.TEST_ACCESS_TOKEN);
     }
 
 }

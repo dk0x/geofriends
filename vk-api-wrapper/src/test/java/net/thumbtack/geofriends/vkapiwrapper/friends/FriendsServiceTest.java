@@ -5,6 +5,7 @@ import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.objects.base.BaseObject;
 import com.vk.api.sdk.objects.base.Country;
 import com.vk.api.sdk.objects.friends.UserXtrLists;
+import net.thumbtack.geofriends.vkapiwrapper.TestHelper;
 import net.thumbtack.geofriends.vkapiwrapper.auth.Session;
 import net.thumbtack.geofriends.vkapiwrapper.auth.SessionRepository;
 import net.thumbtack.geofriends.vkapiwrapper.shared.SessionExpiredException;
@@ -30,8 +31,6 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FriendsServiceTest {
-    private final static String TEST_SESSION_ID = "sessionId";
-    private final static String TEST_ACCESS_TOKEN = "accessToken";
     @Mock
     private VkApiConfig vkApiConfig;
     @Mock
@@ -46,13 +45,13 @@ public class FriendsServiceTest {
 
     @Test
     public void getFriends_whenCorrect_mustReturnPeopleConvertedFromVkFriends() throws ClientException, ApiException, MalformedURLException, SessionExpiredException {
-        Optional<Session> sessionOpt = Optional.of(new Session(TEST_SESSION_ID, TEST_ACCESS_TOKEN));
+        Optional<Session> sessionOpt = Optional.of(new Session(TestHelper.TEST_SESSION_ID, TestHelper.TEST_ACCESS_TOKEN));
         when(sessionRepository.findById(anyString())).thenReturn(sessionOpt);
         List<UserXtrLists> vkFriends = Collections.singletonList(createTestVkFriend());
         when(vkFriendsProvider.fetchVkFriends(anyInt(), any())).thenReturn(vkFriends);
         FriendsService friendsService = new FriendsService(vkApiConfig, vkFriendsProvider, sessionRepository);
 
-        List<PersonDtoResponse> persons = friendsService.getFriends(TEST_SESSION_ID);
+        List<PersonDtoResponse> persons = friendsService.getFriends(TestHelper.TEST_SESSION_ID);
 
         assertThat(persons).
                 hasSize(1).

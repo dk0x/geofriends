@@ -14,12 +14,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @Slf4j
 public class VkApiExceptionHandlingController {
+    protected final static String DESCRIPTION_API_AUTH_EXCEPTION = "Vk auth expired. Need log in again.";
+    protected final static String DESCRIPTION_SESSION_EXPIRED_EXCEPTION = "Session expired. Need log in again.";
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(ApiAuthException.class)
     public ErrorDtoResponse handleApiAuthException(ApiAuthException ex) throws ApiAuthException {
         if (ex.getCode().equals(5)) {
-            return new ErrorDtoResponse(ErrorCode.VK_AUTH_EXPIRED, "Vk auth expired. Need log in again.");
+            return new ErrorDtoResponse(ErrorCode.VK_AUTH_EXPIRED, DESCRIPTION_API_AUTH_EXCEPTION);
         } else {
             throw ex;
         }
@@ -28,7 +30,7 @@ public class VkApiExceptionHandlingController {
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(SessionExpiredException.class)
     public ErrorDtoResponse handleSessionExpiredException(SessionExpiredException ex) {
-        return new ErrorDtoResponse(ErrorCode.SESSION_EXPIRED, "Session expired. Need log in again.");
+        return new ErrorDtoResponse(ErrorCode.SESSION_EXPIRED, DESCRIPTION_SESSION_EXPIRED_EXCEPTION);
     }
 
     protected enum ErrorCode {

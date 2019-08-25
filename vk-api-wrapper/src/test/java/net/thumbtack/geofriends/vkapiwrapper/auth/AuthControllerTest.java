@@ -1,5 +1,6 @@
 package net.thumbtack.geofriends.vkapiwrapper.auth;
 
+import net.thumbtack.geofriends.vkapiwrapper.TestHelper;
 import net.thumbtack.geofriends.vkapiwrapper.shared.VkApiConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,10 +20,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @WebMvcTest(controllers = AuthController.class)
 public class AuthControllerTest {
-    private static final String TEST_CORRECT_CODE = "correctCode";
-    private static final String TEST_ACCESS_TOKEN = "accessToken";
-    private static final String TEST_SESSION_ID = "sessionId";
-
     @Autowired
     private MockMvc mvc;
     @MockBean
@@ -30,19 +27,25 @@ public class AuthControllerTest {
 
     @Test
     public void auth_whenCorrect_mustHttpStatusOk() throws Exception {
-        when(authService.authByCode(anyString())).thenReturn(new Session(TEST_SESSION_ID, TEST_ACCESS_TOKEN));
+        when(authService.authByCode(anyString())).
+                thenReturn(new Session(TestHelper.TEST_SESSION_ID, TestHelper.TEST_ACCESS_TOKEN));
 
-        ResultActions resultActions = mvc.perform(post("/api/vk/auth").param("code", TEST_CORRECT_CODE));
+        ResultActions resultActions = mvc.perform(
+                post("/api/vk/auth").
+                        param("code", TestHelper.TEST_CORRECT_CODE));
 
         resultActions.andExpect(status().isOk());
     }
 
     @Test
     public void auth_whenCorrect_mustSetCorrectCookie() throws Exception {
-        when(authService.authByCode(anyString())).thenReturn(new Session(TEST_SESSION_ID, TEST_ACCESS_TOKEN));
+        when(authService.authByCode(anyString())).
+                thenReturn(new Session(TestHelper.TEST_SESSION_ID, TestHelper.TEST_ACCESS_TOKEN));
 
-        ResultActions resultActions = mvc.perform(post("/api/vk/auth").param("code", TEST_CORRECT_CODE));
+        ResultActions resultActions = mvc.perform(
+                post("/api/vk/auth").
+                        param("code", TestHelper.TEST_CORRECT_CODE));
 
-        resultActions.andExpect(cookie().value(VkApiConfig.SESSION_COOKIE_NAME, TEST_SESSION_ID));
+        resultActions.andExpect(cookie().value(VkApiConfig.SESSION_COOKIE_NAME, TestHelper.TEST_SESSION_ID));
     }
 }

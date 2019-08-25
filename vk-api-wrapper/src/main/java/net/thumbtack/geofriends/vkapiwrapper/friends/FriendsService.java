@@ -46,19 +46,6 @@ public class FriendsService {
         log.debug("Exit from FriendsService.getSessionById() with return {}", session);
         return session;
     }
-//
-//    private List<UserXtrLists> fetchVkFriends(String accessToken) throws ClientException, ApiException {
-//        log.debug("Enter in FriendsService.fetchFriends(accessToken = {})", accessToken);
-//
-//        List<UserXtrLists> vkFriends = vkApiClient
-//                .friends()
-//                .getWithFields(new UserActor(vkApiConfig.getAppId(), accessToken), Fields.CITY, Fields.COUNTRY, Fields.PHOTO_50)
-//                .execute()
-//                .getItems();
-//
-//        log.debug("Exit from FriendsService.fetchFriends() with return list size {} ", vkFriends.size());
-//        return vkFriends;
-//    }
 
     private List<PersonDtoResponse> convertVkFriendsToPersons(List<UserXtrLists> input) {
         return input.stream().map(PersonDtoResponse::createFromUserXtrLists).collect(Collectors.toList());

@@ -1,5 +1,6 @@
 package net.thumbtack.geofriends.vkapiwrapper.forgotme;
 
+import net.thumbtack.geofriends.vkapiwrapper.TestHelper;
 import net.thumbtack.geofriends.vkapiwrapper.shared.VkApiConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,8 +23,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @WebMvcTest(controllers = ForgetMeController.class)
 public class ForgetMeControllerTest {
-    private static final String TEST_SESSION_ID = "testSessionId";
-
     @Autowired
     private MockMvc mvc;
     @MockBean
@@ -31,32 +30,36 @@ public class ForgetMeControllerTest {
 
     @Test
     public void forgetMe_mustHttpStatusOk() throws Exception {
-        ResultActions resultActions = mvc.perform(delete("/api/vk/forgetMe").
-                cookie(new Cookie(VkApiConfig.SESSION_COOKIE_NAME, TEST_SESSION_ID)));
+        ResultActions resultActions = mvc.perform(
+                delete("/api/vk/forgetMe").
+                        cookie(new Cookie(VkApiConfig.SESSION_COOKIE_NAME, TestHelper.TEST_SESSION_ID)));
 
         resultActions.andExpect(status().isOk());
     }
 
     @Test
     public void forgetMe_withoutCookieInRequest_mustHttpStatusOk() throws Exception {
-        ResultActions resultActions = mvc.perform(delete("/api/vk/forgetMe"));
+        ResultActions resultActions = mvc.perform(
+                delete("/api/vk/forgetMe"));
 
         resultActions.andExpect(status().isOk());
     }
 
     @Test
     public void forgetMe_mustSetBlankCookie() throws Exception {
-        ResultActions resultActions = mvc.perform(delete("/api/vk/forgetMe").
-                cookie(new Cookie(VkApiConfig.SESSION_COOKIE_NAME, TEST_SESSION_ID)));
+        ResultActions resultActions = mvc.perform(
+                delete("/api/vk/forgetMe").
+                        cookie(new Cookie(VkApiConfig.SESSION_COOKIE_NAME, TestHelper.TEST_SESSION_ID)));
 
         resultActions.andExpect(cookie().value(VkApiConfig.SESSION_COOKIE_NAME, ""));
     }
 
     @Test
     public void forgetMe_mustCallServiceWithCorrectSessionId() throws Exception {
-        mvc.perform(delete("/api/vk/forgetMe").
-                cookie(new Cookie(VkApiConfig.SESSION_COOKIE_NAME, TEST_SESSION_ID)));
+        mvc.perform(
+                delete("/api/vk/forgetMe").
+                        cookie(new Cookie(VkApiConfig.SESSION_COOKIE_NAME, TestHelper.TEST_SESSION_ID)));
 
-        verify(forgetMeService).forgetMe(eq(TEST_SESSION_ID));
+        verify(forgetMeService).forgetMe(eq(TestHelper.TEST_SESSION_ID));
     }
 }
