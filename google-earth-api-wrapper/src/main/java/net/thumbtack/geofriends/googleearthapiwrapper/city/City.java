@@ -30,9 +30,4 @@ public class City {
         this.latitude = latitude;
         this.longitude = longitude;
     }
-
-    @DynamoDBIgnore
-    public String getAddress() {
-        return country + ", " + name;
-    }
 }

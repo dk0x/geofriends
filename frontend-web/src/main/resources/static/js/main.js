@@ -190,7 +190,8 @@ async function main() {
         showSignInButton();
     } catch (err) {
         switch (err.errorCode) {
-            case 'VK_AUTH_EXPIRED', 'SESSION_EXPIRED': {
+            case 'VK_AUTH_EXPIRED':
+            case 'SESSION_EXPIRED': {
                 clearSession();
                 location.reload();
             } break;
