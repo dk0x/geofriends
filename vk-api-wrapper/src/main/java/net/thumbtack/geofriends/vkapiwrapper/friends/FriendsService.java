@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import net.thumbtack.geofriends.vkapiwrapper.auth.Session;
 import net.thumbtack.geofriends.vkapiwrapper.auth.SessionRepository;
 import net.thumbtack.geofriends.vkapiwrapper.shared.SessionExpiredException;
-import net.thumbtack.geofriends.vkapiwrapper.shared.VkApiConfig;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,15 +18,13 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Slf4j
 public class FriendsService {
-    private VkApiConfig vkApiConfig;
     private VkFriendsProvider vkFriendsProvider;
     private SessionRepository sessionRepository;
 
     public List<PersonDtoResponse> getFriends(String sessionId) throws SessionExpiredException, ClientException, ApiException {
         log.debug("Enter in FriendsService.getFriends(sessionId = {})", sessionId);
 
-        List<UserXtrLists> friendsInVkFormat = vkFriendsProvider.fetchVkFriends(
-                vkApiConfig.getAppId(), getSessionById(sessionId).getAccessToken());
+        List<UserXtrLists> friendsInVkFormat = vkFriendsProvider.fetchVkFriends(getSessionById(sessionId).getAccessToken());
         List<PersonDtoResponse> persons = convertVkFriendsToPersons(friendsInVkFormat);
 
         log.debug("Exit from FriendsService.getFriends() with return list size {}", persons.size());

@@ -32,8 +32,6 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class FriendsServiceTest {
     @Mock
-    private VkApiConfig vkApiConfig;
-    @Mock
     private SessionRepository sessionRepository;
     @Mock
     private VkFriendsProvider vkFriendsProvider;
@@ -48,8 +46,8 @@ public class FriendsServiceTest {
         Optional<Session> sessionOpt = Optional.of(new Session(TestHelper.TEST_SESSION_ID, TestHelper.TEST_ACCESS_TOKEN));
         when(sessionRepository.findById(anyString())).thenReturn(sessionOpt);
         List<UserXtrLists> vkFriends = Collections.singletonList(createTestVkFriend());
-        when(vkFriendsProvider.fetchVkFriends(anyInt(), any())).thenReturn(vkFriends);
-        FriendsService friendsService = new FriendsService(vkApiConfig, vkFriendsProvider, sessionRepository);
+        when(vkFriendsProvider.fetchVkFriends(any())).thenReturn(vkFriends);
+        FriendsService friendsService = new FriendsService(vkFriendsProvider, sessionRepository);
 
         List<PersonDtoResponse> persons = friendsService.getFriends(TestHelper.TEST_SESSION_ID);
 

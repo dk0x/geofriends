@@ -1,4 +1,4 @@
-package net.thumbtack.geofriends.vkapiwrapper.forgotme;
+package net.thumbtack.geofriends.vkapiwrapper.forgetme;
 
 import net.thumbtack.geofriends.vkapiwrapper.TestHelper;
 import net.thumbtack.geofriends.vkapiwrapper.shared.VkApiConfig;

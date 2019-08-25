@@ -21,8 +21,6 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class AuthServiceTest {
     @Mock
-    private VkApiConfig vkApiConfig;
-    @Mock
     private SessionRepository sessionRepository;
     @Mock
     private VkOAuthProvider vkOAuthProvider;
@@ -34,9 +32,9 @@ public class AuthServiceTest {
 
     @Test
     public void authByCode_whenCorrect_mustSaveSessionToStorage() throws ClientException, ApiException {
-        when(vkOAuthProvider.exchangeCodeForAccessToken(any(), anyInt(), any(), any())).
+        when(vkOAuthProvider.exchangeCodeForAccessToken(any())).
                 thenReturn(TestHelper.TEST_ACCESS_TOKEN);
-        AuthService authService = new AuthService(vkApiConfig, vkOAuthProvider, sessionRepository);
+        AuthService authService = new AuthService(vkOAuthProvider, sessionRepository);
 
         Session session = authService.authByCode(TestHelper.TEST_CORRECT_CODE);
 
@@ -45,14 +43,26 @@ public class AuthServiceTest {
 
     @Test
     public void authByCode_whenCorrect_mustReturnValidSession() throws ClientException, ApiException {
-        when(vkOAuthProvider.exchangeCodeForAccessToken(eq(TestHelper.TEST_CORRECT_CODE), anyInt(), any(), any())).
+        when(vkOAuthProvider.exchangeCodeForAccessToken(eq(TestHelper.TEST_CORRECT_CODE))).
                 thenReturn(TestHelper.TEST_ACCESS_TOKEN);
-        AuthService authService = new AuthService(vkApiConfig, vkOAuthProvider, sessionRepository);
+        AuthService authService = new AuthService(vkOAuthProvider, sessionRepository);
 
         Session session = authService.authByCode(TestHelper.TEST_CORRECT_CODE);
 
         assertThat(session.getSessionId()).isNotBlank();
         assertThat(session.getAccessToken()).isEqualTo(TestHelper.TEST_ACCESS_TOKEN);
+    }
+
+    @Test
+    public void authByCode_whenTwiceCorrect_mustReturnDifferentSessionId() throws ClientException, ApiException {
+        when(vkOAuthProvider.exchangeCodeForAccessToken(eq(TestHelper.TEST_CORRECT_CODE))).
+                thenReturn(TestHelper.TEST_ACCESS_TOKEN);
+        AuthService authService = new AuthService(vkOAuthProvider, sessionRepository);
+
+        Session session1 = authService.authByCode(TestHelper.TEST_CORRECT_CODE);
+        Session session2 = authService.authByCode(TestHelper.TEST_CORRECT_CODE);
+
+        assertThat(session1.getSessionId()).isNotEqualTo(session2.getSessionId());
     }
 
 }

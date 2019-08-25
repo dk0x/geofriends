@@ -5,23 +5,22 @@ import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.thumbtack.geofriends.vkapiwrapper.shared.VkApiConfig;
 import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
 @AllArgsConstructor
 public class VkOAuthProvider {
-    private VkApiClient vkApiClient;
+    private VkApiClient client;
+    private VkApiConfig config;
 
-    public String exchangeCodeForAccessToken(String code,
-                                             int clientId,
-                                             String clientSecret,
-                                             String redirectUri) throws ClientException, ApiException {
-        log.debug("Enter in VkOAuthProvider.exchangeCodeForAccessToken(code = {}, clientId = {}, clientSecret = {}, redirectUri = {})", code, clientId, clientSecret, redirectUri);
+    public String exchangeCodeForAccessToken(String code) throws ClientException, ApiException {
+        log.debug("Enter in VkOAuthProvider.exchangeCodeForAccessToken(code = {})", code);
 
-        String accessToken = vkApiClient
+        String accessToken = client
                 .oAuth()
-                .userAuthorizationCodeFlow(clientId, clientSecret, redirectUri, code)
+                .userAuthorizationCodeFlow(config.getAppId(), config.getClientSecret(), config.getAuthorizeRedirectUri(), code)
                 .execute()
                 .getAccessToken();
 

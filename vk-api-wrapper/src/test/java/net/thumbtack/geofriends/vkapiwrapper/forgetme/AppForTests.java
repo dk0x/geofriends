@@ -1,4 +1,4 @@
-package net.thumbtack.geofriends.vkapiwrapper.forgotme;
+package net.thumbtack.geofriends.vkapiwrapper.forgetme;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

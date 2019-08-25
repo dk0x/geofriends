@@ -8,6 +8,7 @@ import com.vk.api.sdk.objects.friends.UserXtrLists;
 import com.vk.api.sdk.objects.users.Fields;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.thumbtack.geofriends.vkapiwrapper.shared.VkApiConfig;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -17,14 +18,15 @@ import java.util.List;
 @AllArgsConstructor
 public class VkFriendsProvider {
 
-    private VkApiClient vkApiClient;
+    private VkApiClient client;
+    private VkApiConfig config;
 
-    public List<UserXtrLists> fetchVkFriends(int appId, String accessToken) throws ClientException, ApiException {
-        log.debug("Enter in VkFriendsProvider.fetchVkFriends(appId = {}, accessToken = {})", appId, accessToken);
+    public List<UserXtrLists> fetchVkFriends(String accessToken) throws ClientException, ApiException {
+        log.debug("Enter in VkFriendsProvider.fetchVkFriends(accessToken = {})", accessToken);
 
-        List<UserXtrLists> vkFriends = vkApiClient
+        List<UserXtrLists> vkFriends = client
                 .friends()
-                .getWithFields(new UserActor(appId, accessToken), Fields.CITY, Fields.COUNTRY, Fields.PHOTO_50)
+                .getWithFields(new UserActor(config.getAppId(), accessToken), Fields.CITY, Fields.COUNTRY, Fields.PHOTO_50)
                 .execute()
                 .getItems();
 

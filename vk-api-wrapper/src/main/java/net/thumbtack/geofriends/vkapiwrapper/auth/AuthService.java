@@ -4,7 +4,6 @@ import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.thumbtack.geofriends.vkapiwrapper.shared.VkApiConfig;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -13,15 +12,13 @@ import java.util.UUID;
 @AllArgsConstructor
 @Slf4j
 public class AuthService {
-    private VkApiConfig vkApiConfig;
     private VkOAuthProvider vkOAuthProvider;
     private SessionRepository sessionRepository;
 
     public Session authByCode(String code) throws ClientException, ApiException {
         log.debug("Enter in AuthService.authByCode(code = {})", code);
 
-        String accessToken = vkOAuthProvider.exchangeCodeForAccessToken(code,
-                vkApiConfig.getAppId(), vkApiConfig.getClientSecret(), vkApiConfig.getAuthorizeRedirectUri());
+        String accessToken = vkOAuthProvider.exchangeCodeForAccessToken(code);
         Session session = createAndSaveSession(accessToken);
 
         log.debug("Exit from AuthService.authByCode() with return {}", session);
