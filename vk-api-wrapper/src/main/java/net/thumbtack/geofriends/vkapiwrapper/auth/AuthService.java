@@ -16,7 +16,7 @@ public class AuthService {
     private SessionRepository sessionRepository;
 
     public Session authByCode(String code, String redirectUri) throws ClientException, ApiException {
-        log.debug("Enter in AuthService.authByCode(code = {})", code);
+        log.debug("Enter in AuthService.authByCode(code = {}, redirectUri = {})", code, redirectUri);
 
         String accessToken = vkOAuthProvider.exchangeCodeForAccessToken(code, redirectUri);
         Session session = createAndSaveSession(accessToken);

@@ -16,7 +16,7 @@ public class VkOAuthProvider {
     private VkApiConfig config;
 
     public String exchangeCodeForAccessToken(String code, String authorizeRedirectUri) throws ClientException, ApiException {
-        log.debug("Enter in VkOAuthProvider.exchangeCodeForAccessToken(code = {})", code);
+        log.debug("Enter in VkOAuthProvider.exchangeCodeForAccessToken(code = {}, authorizeRedirectUri = {})", code, authorizeRedirectUri);
 
         String accessToken = client
                 .oAuth()
