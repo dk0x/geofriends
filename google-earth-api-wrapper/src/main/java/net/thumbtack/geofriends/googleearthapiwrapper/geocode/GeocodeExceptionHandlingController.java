@@ -17,12 +17,15 @@ import java.util.UUID;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @Slf4j
 public class GeocodeExceptionHandlingController {
+
+    protected static final String SOMETHING_WRONG_WITH_GOOGLE = "Something wrong with google geocode api. Please send to tech support this ticket: ";
+
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(ApiException.class)
     public ErrorDtoResponse handleApiException(ApiException ex) {
         String errorTicket = UUID.randomUUID().toString();
         log.error("Catched google api exception (ticket: '{}'). Exception: {} ", errorTicket, ex);
-        return new ErrorDtoResponse(ErrorCode.GOOGLE_API_ERROR, "Something wrong with google geocode api. Please send to tech support this ticket: " + errorTicket);
+        return new ErrorDtoResponse(ErrorCode.GOOGLE_API_ERROR, SOMETHING_WRONG_WITH_GOOGLE + errorTicket);
     }
 
     protected enum ErrorCode {
