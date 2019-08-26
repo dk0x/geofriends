@@ -17,7 +17,6 @@ public class VkApiConfig {
     public final static String SESSION_COOKIE_NAME = "vkSessionId";
     private int appId;
     private String clientSecret;
-    private String authorizeRedirectUri;
 
     @Bean
     public VkApiClient vkApiClient() {

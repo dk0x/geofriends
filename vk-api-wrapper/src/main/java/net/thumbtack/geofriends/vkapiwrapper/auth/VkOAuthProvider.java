@@ -15,12 +15,12 @@ public class VkOAuthProvider {
     private VkApiClient client;
     private VkApiConfig config;
 
-    public String exchangeCodeForAccessToken(String code) throws ClientException, ApiException {
+    public String exchangeCodeForAccessToken(String code, String authorizeRedirectUri) throws ClientException, ApiException {
         log.debug("Enter in VkOAuthProvider.exchangeCodeForAccessToken(code = {})", code);
 
         String accessToken = client
                 .oAuth()
-                .userAuthorizationCodeFlow(config.getAppId(), config.getClientSecret(), config.getAuthorizeRedirectUri(), code)
+                .userAuthorizationCodeFlow(config.getAppId(), config.getClientSecret(), authorizeRedirectUri, code)
                 .execute()
                 .getAccessToken();
 
