@@ -6,9 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.thumbtack.geofriends.vkapiwrapper.shared.VkApiConfig;
 import org.apache.http.client.utils.URIBuilder;
+import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -37,12 +40,15 @@ public class AuthController {
 
     private String buildURIFromRequest(HttpServletRequest request) {
         try {
+            UriComponents uriComponents = UriComponentsBuilder.fromHttpRequest(new ServletServerHttpRequest(request)).build();
+
             URIBuilder uriBuilder = new URIBuilder()
-                    .setScheme(request.getScheme())
-                    .setHost(request.getServerName());
-            if (request.getServerPort() != 80 && request.getServerPort() != 443) {
-                uriBuilder.setPort(request.getServerPort());
+                    .setScheme(uriComponents.getScheme())
+                    .setHost(uriComponents.getHost());
+            if (uriComponents.getPort() != 80 && uriComponents.getPort() != 443) {
+                uriBuilder.setPort(uriComponents.getPort());
             }
+
             return uriBuilder.build().toString();
         } catch (URISyntaxException ignored) {
         }
