@@ -37,12 +37,13 @@ public class AuthController {
 
     private String buildURIFromRequest(HttpServletRequest request) {
         try {
-            return new URIBuilder()
+            URIBuilder uriBuilder = new URIBuilder()
                     .setScheme(request.getScheme())
-                    .setHost(request.getServerName())
-                    .setPort(request.getServerPort())
-                    .build()
-                    .toString();
+                    .setHost(request.getServerName());
+            if (request.getServerPort() != 80 && request.getServerPort() != 443) {
+                uriBuilder.setPort(request.getServerPort());
+            }
+            return uriBuilder.build().toString();
         } catch (URISyntaxException ignored) {
         }
         return "";
