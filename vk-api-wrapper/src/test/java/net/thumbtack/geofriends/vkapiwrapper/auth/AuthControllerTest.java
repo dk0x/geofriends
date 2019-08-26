@@ -27,7 +27,7 @@ public class AuthControllerTest {
 
     @Test
     public void auth_whenCorrect_mustHttpStatusOk() throws Exception {
-        when(authService.authByCode(anyString())).
+        when(authService.authByCode(anyString(), anyString())).
                 thenReturn(new Session(TestHelper.TEST_SESSION_ID, TestHelper.TEST_ACCESS_TOKEN));
 
         ResultActions resultActions = mvc.perform(
@@ -39,7 +39,7 @@ public class AuthControllerTest {
 
     @Test
     public void auth_whenCorrect_mustSetCorrectCookie() throws Exception {
-        when(authService.authByCode(anyString())).
+        when(authService.authByCode(anyString(), anyString())).
                 thenReturn(new Session(TestHelper.TEST_SESSION_ID, TestHelper.TEST_ACCESS_TOKEN));
 
         ResultActions resultActions = mvc.perform(

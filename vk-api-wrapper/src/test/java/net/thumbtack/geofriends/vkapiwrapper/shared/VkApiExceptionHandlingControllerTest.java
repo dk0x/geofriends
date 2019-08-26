@@ -50,7 +50,7 @@ public class VkApiExceptionHandlingControllerTest {
 
     @Test
     public void auth_whenApiAuthException_mustStatusForbidden() throws Exception {
-        when(authService.authByCode(anyString())).thenThrow(new ApiAuthException(""));
+        when(authService.authByCode(anyString(), anyString())).thenThrow(new ApiAuthException(""));
 
         ResultActions resultActions = mvc.perform(
                 post("/api/vk/auth").
@@ -61,7 +61,7 @@ public class VkApiExceptionHandlingControllerTest {
 
     @Test
     public void auth_whenApiAuthException_mustCorrectContentWithErrorCodeAndDescription() throws Exception {
-        when(authService.authByCode(anyString())).thenThrow(new ApiAuthException(""));
+        when(authService.authByCode(anyString(), anyString())).thenThrow(new ApiAuthException(""));
         ErrorDtoResponse errorDtoResponse = new ErrorDtoResponse(VK_AUTH_EXPIRED, DESCRIPTION_API_AUTH_EXCEPTION);
 
         ResultActions resultActions = mvc.perform(
