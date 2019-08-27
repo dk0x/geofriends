@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>GeoFriends</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+        integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+        crossorigin=""></script>
+
+    <link href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" rel="stylesheet">
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+
+    <link href="css/normalize.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+    <link href="css/loader.css" rel="stylesheet" />
+    <script defer src="js/main.js"></script>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-6050760709726062",
+            enable_page_level_ads: true
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+
+    <div class="mainGrid">
+
+        <div class="loading-wrapper" id="loadingIndicator">
+            <div class="loader">
+                <div class="duo duo1">
+                    <div class="dot dot-a"></div>
+                    <div class="dot dot-b"></div>
+                </div>
+                <div class="duo duo2">
+                    <div class="dot dot-a"></div>
+                    <div class="dot dot-b"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="signIn-wrapper" id="signInWrapper">
+            <a class="signIn-button" id="signInButton">SIGN IN VIA VK.COM</a>
+        </div>
+
+        <div class="topMenu-wrapper">
+            <div id="forgetMeButton" class="forgetMe-button" onclick="forgetMe()">
+                <div>Forget me please!</div>
+                <div>(delete all my info from site)</div>
+            </div>
+        </div>
+
+        <div class="map-wrapper">
+            <div id="map" class="map"></div>
+        </div>
+
+        <div class="peoples-block-wrapper">
+            <div class="people-switch-wrapper">
+                switch
+            </div>
+            <div class="people-list-wrapper">
+                <div class="people-list-search-wrapper">
+                    search
+                </div>
+                <div class="people-list-elements-wrapper">
+                    <ul>
+                        <li>111</li>
+                        <li>222</li>
+                        <li>333</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-wrapper">
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6050760709726062"
+                data-ad-slot="8469410740" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+
+    </div>
+
+
+</body>
+
+</html>
