@@ -38,7 +38,7 @@ Base domain: your host name or localhost
 Click 'Connect website' button  
 Go to settings  
 Copy 'App ID' and 'Secure key' to application.yml (vk-api-id and vk-api-client-secret)  
-Add to 'Authorized redirect URI' your host with protocol and http://localhost:[port] for development  
+Add to 'Authorized redirect URI' your [protocol]://[host]:[port] (80 port also required) and http://localhost:[port] for development  
 Click 'Save' button.  
 That's all for Vk.
 
