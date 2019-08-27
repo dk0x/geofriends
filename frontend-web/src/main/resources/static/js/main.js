@@ -11,12 +11,9 @@ function hideLoading() {
 }
 
 function showSignInButton() {
-    let host = location.host;
-    if (host.split(':').length === 1)
-        host = host + ':80';
     let vkOauthUri = 'https://oauth.vk.com/authorize' +
         '?client_id=7087056&display=page&scope=friends&response_type=code&v=5.101' +
-        '&redirect_uri=' + location.protocol + '//' + host;
+        '&redirect_uri=' + HOST;
     document.getElementById('signInButton').setAttribute('href', vkOauthUri);
     document.getElementById('signInWrapper').style.display = '';
 }
