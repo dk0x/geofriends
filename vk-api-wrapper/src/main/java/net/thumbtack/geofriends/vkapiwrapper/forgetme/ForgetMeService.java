@@ -2,7 +2,7 @@ package net.thumbtack.geofriends.vkapiwrapper.forgetme;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.thumbtack.geofriends.vkapiwrapper.auth.SessionRepository;
+import net.thumbtack.geofriends.vkapiwrapper.shared.SessionRepository;
 import org.springframework.stereotype.Service;
 
 @Service

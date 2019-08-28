@@ -1,7 +1,7 @@
 package net.thumbtack.geofriends.vkapiwrapper.forgetme;
 
 import net.thumbtack.geofriends.vkapiwrapper.TestHelper;
-import net.thumbtack.geofriends.vkapiwrapper.auth.SessionRepository;
+import net.thumbtack.geofriends.vkapiwrapper.shared.SessionRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;

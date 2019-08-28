@@ -1,4 +1,4 @@
-package net.thumbtack.geofriends.vkapiwrapper.friends;
+package net.thumbtack.geofriends.vkapiwrapper.followers;
 
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
@@ -16,16 +16,17 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @Slf4j
-public class FriendsController {
-    private FriendsService friendsService;
+public class FollowersController {
+    private FollowersService followersService;
 
-    @GetMapping("/api/vk/friends")
-    public List<Person> friends(@CookieValue(VkApiConfig.SESSION_COOKIE_NAME) String sessionId) throws SessionExpiredException, ClientException, ApiException {
-        log.debug("Enter in FriendsController.friends(sessionId = {})", sessionId);
+    @GetMapping("/api/vk/followers")
+    public List<Person> followers(@CookieValue(VkApiConfig.SESSION_COOKIE_NAME) String sessionId) throws SessionExpiredException, ClientException, ApiException {
+        log.debug("Enter in FollowersController.followers(sessionId = {})", sessionId);
 
-        List<Person> friends = friendsService.getFriends(sessionId);
+        List<Person> people = followersService.getFollowers(sessionId);
 
-        log.debug("Exit from FriendsController.friends() with return list size {}", friends.size());
-        return friends;
+        log.debug("Exit from FollowersController.followers() with return list size {}", people.size());
+        return people;
     }
+
 }
