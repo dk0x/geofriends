@@ -4,7 +4,7 @@ const CONTENT_TYPE_JSON = {
         'Content-Type': 'application/json;charset=UTF-8'
     }
 }
-const COOKIE_NAME_SESSION_ID = "vkSessionId";
+const COOKIE_NAME_SESSION_ID = "sessionId";
 const URL_ORIGIN = location.origin;
 const URL_PATH_API = URL_ORIGIN + '/api';
 const URL_PATH_API_VK_AUTH = URL_PATH_API + '/vk/auth';
@@ -15,16 +15,11 @@ const URL_PATH_API_GEO_GEOCODE = URL_PATH_API + '/geo/geocode';
 
 const VK_URL_PATH_OAUTH = 'https://oauth.vk.com/authorize';
 const VK_APP_ID = 7087056;
-const VK_URL_FULL_OAUTH = VK_URL_PATH_OAUTH + '?client_id=' + VK_APP_ID + '&redirect_uri=' + URL_ORIGIN + '&display=page&scope=friends&response_type=code&v=5.101';
+const VK_URL_FULL_OAUTH = VK_URL_PATH_OAUTH + '?client_id=' + VK_APP_ID + '&redirect_uri=' + URL_PATH_API_VK_AUTH + '&display=page&scope=friends&response_type=code&v=5.101';
 
 function getCookie(name) {
     const matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
     return matches ? decodeURIComponent(matches[1]) : undefined;
-}
-function getUrlParameter(name) {
-    const splitedUrlArray = location.href.split('?');
-    const params = new URLSearchParams(splitedUrlArray[1]);
-    return params.get(name);
 }
 
 const store = new Vuex.Store({
@@ -103,19 +98,6 @@ const store = new Vuex.Store({
                 console.log(err);
             }
         },
-        authByCode: async (context, code) => {
-            try {
-                let response = await axios.post(URL_PATH_API_VK_AUTH + '?code=' + code);
-                if (response.status == 200) {
-                    context.commit('setIsAuth', true);
-                    document.location = URL_ORIGIN;
-                } else {
-                    console.log(response);
-                }
-            } catch (err) {
-                console.log(err);
-            }
-        },
         forgetMe: async (context) => {
             context.commit('setIsLoading', true);
             try {
@@ -142,15 +124,6 @@ var app = new Vue({
         clusters: null,
     },
     mounted: function () {
-
-        // move this logic to backend, rly...
-        let vkOauthCode = getUrlParameter('code');
-        let itsVkOAUthRedirect = vkOauthCode != null;
-        if (itsVkOAUthRedirect) {
-            this.authByCode(vkOauthCode);
-            return;
-        }
-
         let userAlreadyHaveSession = getCookie(COOKIE_NAME_SESSION_ID) != undefined;
         this.setIsAuth(userAlreadyHaveSession);
 
