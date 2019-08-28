@@ -1,4 +1,4 @@
-package net.thumbtack.geofriends.vkapiwrapper.friends;
+package net.thumbtack.geofriends.vkapiwrapper.followers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.thumbtack.geofriends.vkapiwrapper.TestHelper;
@@ -25,41 +25,41 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(controllers = FriendsController.class)
-public class FriendsControllerTest {
+@WebMvcTest(controllers = FollowersController.class)
+public class FollowersControllerTest {
     @Autowired
     private MockMvc mvc;
     @MockBean
-    private FriendsService friendsService;
+    private FollowersService service;
     @Autowired
     private ObjectMapper mapper;
 
     @Test
-    public void friends_mustHttpStatusOk() throws Exception {
-        when(friendsService.getFriends(anyString())).thenReturn(new ArrayList<>());
+    public void followers_mustHttpStatusOk() throws Exception {
+        when(service.getFollowers(anyString())).thenReturn(new ArrayList<>());
 
         ResultActions resultActions = mvc.perform(
-                get("/api/vk/friends").
+                get("/api/vk/followers").
                         cookie(new Cookie(VkApiConfig.SESSION_COOKIE_NAME, TestHelper.TEST_SESSION_ID)));
 
         resultActions.andExpect(status().isOk());
     }
 
     @Test
-    public void friends_withoutCookie_mustHttpStatusBadRequest() throws Exception {
+    public void followers_withoutCookie_mustHttpStatusBadRequest() throws Exception {
         ResultActions resultActions = mvc.perform(
-                get("/api/vk/friends"));
+                get("/api/vk/followers"));
 
         resultActions.andExpect(status().isBadRequest());
     }
 
     @Test
-    public void friends_mustReturnCorrectPeopleFromService() throws Exception {
+    public void followers_mustReturnCorrectPeopleFromService() throws Exception {
         List<Person> personDtoRespons = Collections.singletonList(createTestPersonDtoResponse());
-        when(friendsService.getFriends(anyString())).thenReturn(personDtoRespons);
+        when(service.getFollowers(anyString())).thenReturn(personDtoRespons);
 
         ResultActions resultActions = mvc.perform(
-                get("/api/vk/friends").
+                get("/api/vk/followers").
                         cookie(new Cookie(VkApiConfig.SESSION_COOKIE_NAME, TestHelper.TEST_SESSION_ID)));
 
         resultActions.andExpect(content().json(mapper.writeValueAsString(personDtoRespons)));

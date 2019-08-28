@@ -4,6 +4,7 @@ import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.thumbtack.geofriends.vkapiwrapper.shared.Session;
 import net.thumbtack.geofriends.vkapiwrapper.shared.VkApiConfig;
 import org.apache.http.client.utils.URIBuilder;
 import org.springframework.http.server.ServletServerHttpRequest;

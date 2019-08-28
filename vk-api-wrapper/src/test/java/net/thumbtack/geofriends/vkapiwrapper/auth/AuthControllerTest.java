@@ -1,6 +1,7 @@
 package net.thumbtack.geofriends.vkapiwrapper.auth;
 
 import net.thumbtack.geofriends.vkapiwrapper.TestHelper;
+import net.thumbtack.geofriends.vkapiwrapper.shared.Session;
 import net.thumbtack.geofriends.vkapiwrapper.shared.VkApiConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;

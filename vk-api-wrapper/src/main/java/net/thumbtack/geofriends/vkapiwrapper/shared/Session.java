@@ -1,4 +1,4 @@
-package net.thumbtack.geofriends.vkapiwrapper.auth;
+package net.thumbtack.geofriends.vkapiwrapper.shared;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
