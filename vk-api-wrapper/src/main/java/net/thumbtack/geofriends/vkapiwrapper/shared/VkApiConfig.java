@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "vkapi")
 @Data
 public class VkApiConfig {
-    public final static String SESSION_COOKIE_NAME = "vkSessionId";
+    public final static String SESSION_COOKIE_NAME = "sessionId";
     private int appId;
     private String clientSecret;
 
