@@ -10,7 +10,7 @@ const URL_PATH_API = URL_ORIGIN + '/api';
 const URL_PATH_API_VK_AUTH = URL_PATH_API + '/vk/auth';
 const URL_PATH_API_VK_FORGET_ME = URL_PATH_API + '/vk/forgetMe';
 const URL_PATH_API_VK_FRIENDS = URL_PATH_API + '/vk/friends';
-const URL_PATH_API_VK_SUBSCRIBERS = URL_PATH_API + '/vk/subscribers';
+const URL_PATH_API_VK_FOLLOWERS = URL_PATH_API + '/vk/followers';
 const URL_PATH_API_GEO_GEOCODE = URL_PATH_API + '/geo/geocode';
 
 const VK_URL_PATH_OAUTH = 'https://oauth.vk.com/authorize';
@@ -38,19 +38,51 @@ const store = new Vuex.Store({
         getCityById: state => id => {
             return state.cities.find(city => city.id == id);
         },
+        getPersonById: state => id => {
+            return state.people.find(person => person.id == id);
+        },
     },
     mutations: {
         setIsLoading: (state, val) => state.isLoading = val,
         setIsAuth: (state, val) => state.isAuth = val,
         setCities: (state, cities) => state.cities = cities,
         setPeople: (state, people) => state.people = people,
+        addPerson: (state, person) => {
+            if (person.firstName == "DELETED") return;
+            let existPerson = state.people.find(p => p.id == person.id);
+            if (!existPerson) {
+                state.people.push(person);
+            }
+        },
     },
     actions: {
         fetchFriendsVK: async (context) => {
             try {
                 let response = await axios.get(URL_PATH_API_VK_FRIENDS);
                 if (response.status == 200) {
-                    context.commit('setPeople', response.data);
+                    let persons = response.data;
+                    persons.forEach(person => {
+                        person.source = "vk";
+                        person.type = "friend";
+                        context.commit('addPerson', person);
+                    });
+                } else {
+                    console.log(response);
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        },
+        fetchFollowersVK: async (context) => {
+            try {
+                let response = await axios.get(URL_PATH_API_VK_FOLLOWERS);
+                if (response.status == 200) {
+                    let persons = response.data;
+                    persons.forEach(person => {
+                        person.source = "vk";
+                        person.type = "follower";
+                        context.commit('addPerson', person);
+                    });
                 } else {
                     console.log(response);
                 }
@@ -124,6 +156,7 @@ var app = new Vue({
 
         this.initMap();
         this.fetchFriendsVk();
+        this.fetchFollowersVK();
 
         this.setIsLoading(false);
     },
@@ -199,6 +232,7 @@ var app = new Vue({
         forgetMe: () => store.dispatch('forgetMe'),
 
         fetchFriendsVk: () => store.dispatch('fetchFriendsVK'),
+        fetchFollowersVK: () => store.dispatch('fetchFollowersVK'),
 
         initMap: function () {
             this.map = L.map('map');
