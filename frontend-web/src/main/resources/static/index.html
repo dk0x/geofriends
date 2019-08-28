@@ -48,32 +48,48 @@
             </div>
 
             <div v-if="!isAuth" class="signIn-wrapper">
+                <span style="text-align: center;font-size: 72px;margin: 50px;">GEO FRIENDS</span>
                 <el-button type="primary" @click="goToVKAuth">SIGN IN WITH VK.COM</el-button>
             </div>
 
+            <div class="topLeft-wrapper">
+                <span style="font-size: 30px">GEO FRIENDS</span>
+            </div>
+
             <div class="topMenu-wrapper">
-                <el-button type="info" @click="forgetMe">FORGET ME!</el-button>
+                <div style="justify-self: start">
+                    <el-checkbox label="VK Friends" border v-model="$store.state.displayFriendsVK"> </el-checkbox>
+                    <el-checkbox label="VK Followers" border v-model="$store.state.displayFollowersVK"> </el-checkbox>
+                </div>
+                <el-button style="justify-self: end" type="info" @click="forgetMe">FORGET ME!</el-button>
             </div>
 
             <div class="map-wrapper">
                 <div id="map" class="map"></div>
             </div>
 
-            <div class="left-block-wrapper">
-                <div class="people-list-wrapper">
+            <!-- <div class="left-block-wrapper"> -->
+            <div class="people-search-wrapper">
+                <el-input placeholder="Start search person" v-model="$store.state.peopleFilter" clearable>
+                </el-input>
+            </div>
+            <div class="people-list-wrapper">
+                <div>
                     <el-menu>
-                        <el-menu-item v-for="person in people" :key="person.id" @click="goToCityId(person.cityId)">
+                        <el-menu-item v-for="person in filteredPeople" :key="person.id"
+                            @click="goToCityId(person.cityId)">
                             <img :src="person.photoUri" style="width: 50px; height: 50px;">
                             <span>{{ person.lastName }} {{ person.firstName }}</span>
                         </el-menu-item>
                     </el-menu>
                 </div>
             </div>
+            <!-- </div> -->
 
         </div>
     </div>
     <div class="ad-wrapper">
-
+        <p style="text-align: center;font-size: 25px;color: gray;">google ADs here</p>
     </div>
 </body>
 
