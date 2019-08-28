@@ -44,6 +44,7 @@ const store = new Vuex.Store({
         setPeople: (state, people) => state.people = people,
         addPerson: (state, person) => {
             if (person.firstName == "DELETED") return;
+            if (person.cityId == -1) return;
             let existPerson = state.people.find(p => p.id == person.id);
             if (!existPerson) {
                 state.people.push(person);
@@ -201,9 +202,8 @@ var app = new Vue({
     methods: {
         setIsLoading: (val) => store.commit('setIsLoading', val),
         setIsAuth: (val) => store.commit('setIsAuth', val),
-        authByCode: (code) => store.dispatch('authByCode', code),
         forgetMe: () => store.dispatch('forgetMe'),
-
+        goToVKAuth: () => location.href = VK_URL_FULL_OAUTH,
         fetchFriendsVk: () => store.dispatch('fetchFriendsVK'),
         fetchFollowersVK: () => store.dispatch('fetchFollowersVK'),
 
@@ -221,8 +221,14 @@ var app = new Vue({
             this.clusters = L.markerClusterGroup({ maxClusterRadius: 20 });
             this.map.addLayer(this.clusters);
         },
-        goTo: function (coords) {
+
+        goToCityId: function (id) {
+            let city = store.getters.getCityById(id);
+            this.goToCoords([city.latitude, city.longitude]);
+        },
+        goToCoords: function (coords) {
             this.map.setView(coords, 16);
-        }
+        },
+
     }
 })

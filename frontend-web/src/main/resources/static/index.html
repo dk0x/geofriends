@@ -8,12 +8,14 @@
     <!-- 3rd -->
     <link href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" rel="stylesheet" />
     <link href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" rel="stylesheet">
+    <link href="https://unpkg.com/element-ui@2.11.1/lib/theme-chalk/index.css" rel="stylesheet">
 
     <script src="https://unpkg.com/vue@2.6.10/dist/vue.js"></script>
     <script src="https://unpkg.com/vuex@3.1.1/dist/vuex.js"></script>
     <script src="https://unpkg.com/axios@0.19.0/dist/axios.js"></script>
     <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    <script src="https://unpkg.com/element-ui@2.11.1/lib/index.js"></script>
     <!-- google adsense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script> (adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-6050760709726062", enable_page_level_ads: true }); </script>
@@ -46,31 +48,25 @@
             </div>
 
             <div v-if="!isAuth" class="signIn-wrapper">
-                <a :href="vkOAuthURI" class="signIn-button">SIGN IN VIA VK.COM</a>
+                <el-button type="primary" @click="goToVKAuth">SIGN IN WITH VK.COM</el-button>
             </div>
 
             <div class="topMenu-wrapper">
-                <div id="forgetMeButton" class="forgetMe-button" @click="forgetMe">
-                    <div>Forget me!</div>
-                </div>
+                <el-button type="info" @click="forgetMe">FORGET ME!</el-button>
             </div>
 
             <div class="map-wrapper">
                 <div id="map" class="map"></div>
             </div>
 
-            <div class="people-block-wrapper">
+            <div class="left-block-wrapper">
                 <div class="people-list-wrapper">
-                    <div class="people-list-search-wrapper">
-                        search
-                    </div>
-                    <div class="people-list-elements-wrapper">
-                        <ul>
-                            <li v-for="person in people">
-                                {{ person.firstName }} {{ person.lastName }}
-                            </li>
-                        </ul>
-                    </div>
+                    <el-menu>
+                        <el-menu-item v-for="person in people" :key="person.id" @click="goToCityId(person.cityId)">
+                            <img :src="person.photoUri" style="width: 50px; height: 50px;">
+                            <span>{{ person.lastName }} {{ person.firstName }}</span>
+                        </el-menu-item>
+                    </el-menu>
                 </div>
             </div>
 
